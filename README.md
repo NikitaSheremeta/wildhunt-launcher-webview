@@ -1,0 +1,1 @@
+# wildhunt-launcher-client
