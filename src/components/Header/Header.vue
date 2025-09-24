@@ -2,7 +2,7 @@
   <header
     class="w-full py-[16px] flex items-center justify-between bg-gradient-to-b from-[var(--color-gray-900)] to-[rgba(255,255,255,0)]"
   >
-    <img class="w-[120px] h-[60px]" :src="logoImage" alt="Minecraft WildHunt" />
+    <img class="w-[100px]" :src="logoImage" alt="Minecraft WildHunt" />
 
     <ul class="flex gap-[32px]">
       <li v-for="link in NAVIGATION_LINKS" :key="link.path">
