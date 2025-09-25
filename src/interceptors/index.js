@@ -15,6 +15,9 @@ $api.interceptors.request.use((config) => {
 
 $api.interceptors.response.use(
   (config) => {
+    // @TODO: Don't forget to handle only login, signup, logout and refresh responses.
+    localStorage.setItem('token', config.data['accessToken']);
+
     return config;
   },
   async (error) => {
@@ -32,7 +35,7 @@ $api.interceptors.response.use(
 
         return $api.request(originalRequest);
       } catch (err) {
-        console.log('[interceptors.response]: ' + err.message);
+        console.log('interceptors.response: ' + err.message);
       }
     }
 

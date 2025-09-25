@@ -1,18 +1,24 @@
 import { defineStore } from 'pinia';
+import { ref } from 'vue';
 import $api from '@/interceptors/index';
 
 export const useAuthStore = defineStore('auth', () => {
-  const fetchLogin = async (data) => {
-    try {
-      const response = await $api.post('/auth/login', data);
+  const isLogInLoading = ref(false);
 
-      localStorage.setItem('token', response.data['accessToken']);
+  const logIn = async (data) => {
+    try {
+      isLogInLoading.value = true;
+
+      await $api.post('/auth/login', data);
     } catch (error) {
-      console.error('/auth/login: ' + error.message);
+      console.error('logIn: ' + error.message);
+    } finally {
+      isLogInLoading.value = false;
     }
   };
 
   return {
-    fetchLogin,
+    isLogInLoading,
+    logIn,
   };
 });

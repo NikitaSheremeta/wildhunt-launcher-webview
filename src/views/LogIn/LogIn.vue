@@ -24,7 +24,7 @@
       <button
         id="login-button"
         class="px-[24px] w-full h-[48px] bg-violet-500 hover:bg-violet-600 active:bg-violet-600 rounded-[12px] text-white cursor-pointer"
-        @click="handleClickOnLoginButton"
+        @click="onLoginButtonClick"
       >
         Войти
       </button>
@@ -37,19 +37,20 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
 import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
+import { reactive } from 'vue';
 
 const authStore = useAuthStore();
 
-const { fetchLogin } = authStore;
+const { isLogInLoading } = storeToRefs(authStore);
 
 const data = reactive({
   login: '',
   password: '',
 });
 
-const handleClickOnLoginButton = async () => {
-  await fetchLogin(data);
+const onLoginButtonClick = async () => {
+  await authStore.logIn(data);
 };
 </script>
