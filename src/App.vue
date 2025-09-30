@@ -4,8 +4,11 @@
   <div class="flex items-center justify-center w-screen h-screen min-w-[580px]">
     <router-view />
   </div>
+
+  <NotificationPopup />
 </template>
 
 <script setup>
 import Header from '@/components/Header/Header.vue';
+import NotificationPopup from '@/components/NotificationPopup/NotificationPopup.vue';
 </script>

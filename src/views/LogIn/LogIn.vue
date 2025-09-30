@@ -40,6 +40,7 @@
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
+import { notify } from '@/utils/notify';
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -53,6 +54,8 @@ const onLoginButtonClick = async () => {
   const response = await authStore.logIn(data);
 
   if (response.status === 200) {
+    notify('Вы успешно вошли');
+
     router.push('/');
   }
 };

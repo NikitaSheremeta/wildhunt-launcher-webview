@@ -9,6 +9,8 @@ export const useAuthStore = defineStore('auth', () => {
   const isLogInLoading = ref(false);
   const isLogOutLoading = ref(false);
 
+  // @TODO: Re-implement this method as a refresh token function.
+  // @TODO: Implement a real checkAuth route.
   const checkAuth = async () => {
     try {
       isCheckingAuthLoading.value = true;

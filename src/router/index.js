@@ -34,6 +34,7 @@ router.beforeEach(async (to, from, next) => {
 
   if (to.meta.requiresAuth) {
     if (!token) {
+      // TODO: It shouldn't be called through the refresh token route, implement a real checkAuth route.
       const response = await authStore.checkAuth();
 
       if (response.status === 401) {
@@ -44,6 +45,7 @@ router.beforeEach(async (to, from, next) => {
 
   if (to.path === '/login' || to.path === '/signup') {
     if (!token) {
+      // TODO: It shouldn't be called through the refresh token route, implement a real checkAuth route.
       const response = await authStore.checkAuth();
 
       if (response.status === 200) {
