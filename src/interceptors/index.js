@@ -1,4 +1,4 @@
-import { AUTH_ROUTES } from '@/constants/routes';
+import { AUTH_ENDPOINTS } from '@/constants/endpoints';
 import axios from 'axios';
 
 // const $api = axios.create({ withCredentials: true });
@@ -17,14 +17,14 @@ $api.interceptors.request.use((config) => {
 $api.interceptors.response.use(
   (config) => {
     if (
-      config.config.url.includes(AUTH_ROUTES.LOGIN) ||
-      config.config.url.includes(AUTH_ROUTES.SIGNUP) ||
-      config.config.url.includes(AUTH_ROUTES.REFRESH)
+      config.config.url.includes(AUTH_ENDPOINTS.LOGIN) ||
+      config.config.url.includes(AUTH_ENDPOINTS.SIGNUP) ||
+      config.config.url.includes(AUTH_ENDPOINTS.REFRESH)
     ) {
       localStorage.setItem('token', config.data['accessToken']);
     }
 
-    if (config.config.url.includes(AUTH_ROUTES.LOGOUT)) {
+    if (config.config.url.includes(AUTH_ENDPOINTS.LOGOUT)) {
       localStorage.removeItem('token');
     }
 
@@ -37,7 +37,7 @@ $api.interceptors.response.use(
       originalRequest.isRetry = true;
 
       try {
-        const { data: response } = await axios.get(AUTH_ROUTES.REFRESH, {
+        const { data: response } = await axios.get(AUTH_ENDPOINTS.REFRESH, {
           withCredentials: true,
         });
 

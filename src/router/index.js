@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
 
 const routes = [
   {
@@ -26,22 +28,32 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token');
 
-  if (to.meta.requiresAuth && !token) {
-    next({ path: '/login', replace: true });
+  const authStore = useAuthStore();
 
-    return;
+  if (to.meta.requiresAuth) {
+    if (!token) {
+      const response = await authStore.checkAuth();
+
+      if (response.status === 401) {
+        return next({ path: '/login', replace: true });
+      }
+    }
   }
 
-  if ((to.path === '/login' || to.path === '/signup') && token) {
-    next({ path: '/', replace: true });
+  if (to.path === '/login' || to.path === '/signup') {
+    if (!token) {
+      const response = await authStore.checkAuth();
 
-    return;
+      if (response.status === 200) {
+        return next({ path: '/', replace: true });
+      }
+    }
   }
 
-  next();
+  return next();
 });
 
 export default router;

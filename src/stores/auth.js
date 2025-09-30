@@ -1,21 +1,27 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import $api from '@/interceptors/index';
-import { AUTH_ROUTES } from '@/constants/routes';
+import { AUTH_ENDPOINTS } from '@/constants/endpoints';
 
 export const useAuthStore = defineStore('auth', () => {
+  const isAuthenticated = ref(false);
+
   const isCheckingAuthLoading = ref(false);
   const isSignUpLoading = ref(false);
   const isLogInLoading = ref(false);
   const isLogOutLoading = ref(false);
 
+  const setIsAuthenticated = (value) => {
+    isAuthenticated.value = value;
+  };
+
   const checkAuth = async () => {
     try {
       isCheckingAuthLoading.value = true;
 
-      await $api.get(AUTH_ROUTES.REFRESH);
+      return await $api.get(AUTH_ENDPOINTS.REFRESH);
     } catch (error) {
-      console.error('checkAuth: ' + error.message);
+      return error.response;
     } finally {
       isCheckingAuthLoading.value = false;
     }
@@ -25,9 +31,9 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       isSignUpLoading.value = true;
 
-      await $api.post(AUTH_ROUTES.SIGNUP, data);
+      return await $api.post(AUTH_ENDPOINTS.SIGNUP, data);
     } catch (error) {
-      console.error('signUp: ' + error.message);
+      return error.response;
     } finally {
       isSignUpLoading.value = false;
     }
@@ -37,9 +43,9 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       isLogInLoading.value = true;
 
-      await $api.post(AUTH_ROUTES.LOGIN, data);
+      return await $api.post(AUTH_ENDPOINTS.LOGIN, data);
     } catch (error) {
-      console.error(error.response.data.message);
+      return error.response;
     } finally {
       isLogInLoading.value = false;
     }
@@ -49,19 +55,21 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       isLogOutLoading.value = true;
 
-      await $api.post(AUTH_ROUTES.LOGOUT);
+      return await $api.post(AUTH_ENDPOINTS.LOGOUT);
     } catch (error) {
-      console.error('logOut: ' + error.message);
+      return error.response;
     } finally {
       isLogOutLoading.value = false;
     }
   };
 
   return {
+    isAuthenticated,
     isCheckingAuthLoading,
     isSignUpLoading,
     isLogInLoading,
     isLogOutLoading,
+    setIsAuthenticated,
     checkAuth,
     signUp,
     logIn,
