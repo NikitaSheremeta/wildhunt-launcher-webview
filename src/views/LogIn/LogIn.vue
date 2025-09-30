@@ -8,7 +8,7 @@
         v-model="data.login"
         type="text"
         class="px-[24px] h-[52px] rounded-[12px] bg-gray-800 text-white placeholder:text-gray-600 hover:placeholder:text-gray-700 focus:placeholder:text-gray-700 outline-none"
-        placeholder="Имя игрока или электронная почта"
+        placeholder="Имя игрока / электронная почта"
       />
 
       <input
@@ -38,12 +38,9 @@
 
 <script setup>
 import { useAuthStore } from '@/stores/auth';
-import { storeToRefs } from 'pinia';
 import { reactive } from 'vue';
 
 const authStore = useAuthStore();
-
-const { isLogInLoading } = storeToRefs(authStore);
 
 const data = reactive({
   login: '',

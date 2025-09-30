@@ -3,11 +3,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    redirect: () => {
-      return {
-        path: '/login',
-      };
+    name: 'Home Page',
+    component: () => import('@/views/HomePage/HomePage.vue'),
+    meta: {
+      requiresAuth: true,
     },
   },
   {
@@ -25,6 +24,24 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+
+  if (to.meta.requiresAuth && !token) {
+    next({ path: '/login', replace: true });
+
+    return;
+  }
+
+  if ((to.path === '/login' || to.path === '/signup') && token) {
+    next({ path: '/', replace: true });
+
+    return;
+  }
+
+  next();
 });
 
 export default router;

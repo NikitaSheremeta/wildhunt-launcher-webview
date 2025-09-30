@@ -1,3 +1,4 @@
+import { AUTH_ROUTES } from '@/constants/routes';
 import axios from 'axios';
 
 // const $api = axios.create({ withCredentials: true });
@@ -15,8 +16,17 @@ $api.interceptors.request.use((config) => {
 
 $api.interceptors.response.use(
   (config) => {
-    // @TODO: Don't forget to handle only login, signup, logout and refresh responses.
-    localStorage.setItem('token', config.data['accessToken']);
+    if (
+      config.config.url.includes(AUTH_ROUTES.LOGIN) ||
+      config.config.url.includes(AUTH_ROUTES.SIGNUP) ||
+      config.config.url.includes(AUTH_ROUTES.REFRESH)
+    ) {
+      localStorage.setItem('token', config.data['accessToken']);
+    }
+
+    if (config.config.url.includes(AUTH_ROUTES.LOGOUT)) {
+      localStorage.removeItem('token');
+    }
 
     return config;
   },
@@ -27,7 +37,7 @@ $api.interceptors.response.use(
       originalRequest.isRetry = true;
 
       try {
-        const { data: response } = await axios.get('/auth/refresh', {
+        const { data: response } = await axios.get(AUTH_ROUTES.REFRESH, {
           withCredentials: true,
         });
 
