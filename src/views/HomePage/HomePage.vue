@@ -30,8 +30,6 @@ const onLogOutButtonClick = async () => {
   const response = await authStore.logOut();
 
   if (response.status === 200) {
-    authStore.setIsAuthenticated(false);
-
     router.push('/login');
   }
 };

@@ -4,16 +4,10 @@ import $api from '@/interceptors/index';
 import { AUTH_ENDPOINTS } from '@/constants/endpoints';
 
 export const useAuthStore = defineStore('auth', () => {
-  const isAuthenticated = ref(false);
-
   const isCheckingAuthLoading = ref(false);
   const isSignUpLoading = ref(false);
   const isLogInLoading = ref(false);
   const isLogOutLoading = ref(false);
-
-  const setIsAuthenticated = (value) => {
-    isAuthenticated.value = value;
-  };
 
   const checkAuth = async () => {
     try {
@@ -64,12 +58,10 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   return {
-    isAuthenticated,
     isCheckingAuthLoading,
     isSignUpLoading,
     isLogInLoading,
     isLogOutLoading,
-    setIsAuthenticated,
     checkAuth,
     signUp,
     logIn,

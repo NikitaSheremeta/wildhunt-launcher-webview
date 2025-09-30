@@ -53,8 +53,6 @@ const onLoginButtonClick = async () => {
   const response = await authStore.logIn(data);
 
   if (response.status === 200) {
-    authStore.setIsAuthenticated(true);
-
     router.push('/');
   }
 };

@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-import { storeToRefs } from 'pinia';
 
 const routes = [
   {
@@ -50,6 +49,10 @@ router.beforeEach(async (to, from, next) => {
       if (response.status === 200) {
         return next({ path: '/', replace: true });
       }
+    }
+
+    if (token) {
+      return next({ path: '/', replace: true });
     }
   }
 
