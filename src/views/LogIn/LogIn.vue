@@ -40,6 +40,8 @@
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
+import { debounce } from '@/utils/debounce';
+import { HTTP_STATUS } from '@/constants/status-codes';
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -49,11 +51,11 @@ const data = reactive({
   password: '',
 });
 
-const onLoginButtonClick = async () => {
+const onLoginButtonClick = debounce(async () => {
   const response = await authStore.logIn(data);
 
-  if (response.status === 200) {
+  if (response.status === HTTP_STATUS.OK) {
     router.push('/');
   }
-};
+});
 </script>

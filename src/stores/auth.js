@@ -3,6 +3,7 @@ import { useNotificationsStore } from '@/stores/notifications';
 import { ref } from 'vue';
 import $api from '@/interceptors/index';
 import { AUTH_ENDPOINTS } from '@/constants/endpoints';
+import { HTTP_STATUS } from '@/constants/status-codes';
 import { ALLOWED_THEMES } from '@/constants/themes';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -35,7 +36,7 @@ export const useAuthStore = defineStore('auth', () => {
 
       const response = await $api.post(AUTH_ENDPOINTS.SIGNUP, data);
 
-      if (response.status === 200) {
+      if (response.status === HTTP_STATUS.OK) {
         notificationsStore.show('Вы успешно зарегистрированы', ALLOWED_THEMES.SUCCESS);
       }
 
@@ -55,7 +56,7 @@ export const useAuthStore = defineStore('auth', () => {
 
       const response = await $api.post(AUTH_ENDPOINTS.LOGIN, data);
 
-      if (response.status === 200) {
+      if (response.status === HTTP_STATUS.OK) {
         notificationsStore.show('Вы успешно вошли в аккаунт', ALLOWED_THEMES.SUCCESS);
       }
 
@@ -75,7 +76,7 @@ export const useAuthStore = defineStore('auth', () => {
 
       const response = await $api.post(AUTH_ENDPOINTS.LOGOUT);
 
-      if (response.status === 200) {
+      if (response.status === HTTP_STATUS.OK) {
         notificationsStore.show('Вы успешно вышли из аккаунта', ALLOWED_THEMES.SUCCESS);
       }
 

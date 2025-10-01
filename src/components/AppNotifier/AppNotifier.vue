@@ -5,9 +5,9 @@
       :key="messageKey"
       class="fixed left-1/2 -translate-x-1/2 bottom-4 z-50 h-[48px] w-[320px] max-w-[320px] px-4 py-3 rounded-[12px] shadow-lg text-white backdrop-blur-md"
       :class="[
-        messageTheme === 'default' ? 'bg-gray-900/60' : '',
-        messageTheme === 'success' ? 'bg-green-500/60' : '',
-        messageTheme === 'error' ? 'bg-red-500/60' : '',
+        messageTheme === 'default' ? 'bg-gray-900/70' : '',
+        messageTheme === 'success' ? 'bg-green-500/70' : '',
+        messageTheme === 'error' ? 'bg-red-500/70' : '',
       ]"
       role="status"
       aria-live="polite"

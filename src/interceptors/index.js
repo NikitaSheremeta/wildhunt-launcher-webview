@@ -1,5 +1,6 @@
 import { AUTH_ENDPOINTS } from '@/constants/endpoints';
 import axios from 'axios';
+import { HTTP_STATUS } from '@/constants/status-codes';
 
 // const $api = axios.create({ withCredentials: true });
 const $api = axios.create();
@@ -33,7 +34,7 @@ $api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status === 401 && error.config && !error.config.isRetry) {
+    if (error.response.status === HTTP_STATUS.UNAUTHORIZED && error.config && !error.config.isRetry) {
       originalRequest.isRetry = true;
 
       try {

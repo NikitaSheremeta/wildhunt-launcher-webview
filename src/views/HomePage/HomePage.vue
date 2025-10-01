@@ -22,6 +22,7 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
+import { HTTP_STATUS } from '@/constants/status-codes';
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -29,7 +30,7 @@ const router = useRouter();
 const onLogOutButtonClick = async () => {
   const response = await authStore.logOut();
 
-  if (response.status === 200) {
+  if (response.status === HTTP_STATUS.OK) {
     router.push('/login');
   }
 };

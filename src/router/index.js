@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
+import { HTTP_STATUS } from '@/constants/status-codes';
 
 const routes = [
   {
@@ -37,7 +38,7 @@ router.beforeEach(async (to, from, next) => {
       // TODO: It shouldn't be called through the refresh token route, implement a real checkAuth route.
       const response = await authStore.checkAuth();
 
-      if (response.status === 401) {
+      if (response.status === HTTP_STATUS.UNAUTHORIZED) {
         return next({ path: '/login', replace: true });
       }
     }
@@ -48,7 +49,7 @@ router.beforeEach(async (to, from, next) => {
       // TODO: It shouldn't be called through the refresh token route, implement a real checkAuth route.
       const response = await authStore.checkAuth();
 
-      if (response.status === 200) {
+      if (response.status === HTTP_STATUS.OK) {
         return next({ path: '/', replace: true });
       }
     }
