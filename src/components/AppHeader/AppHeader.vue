@@ -2,18 +2,32 @@
   <header
     class="w-full py-[16px] flex items-center justify-between bg-gradient-to-b from-[var(--color-gray-900)] to-[rgba(255,255,255,0)]"
   >
-    <img class="w-[100px]" :src="logoImage" alt="Minecraft WildHunt" />
+    <img class="w-[100px]" :src="logoImage" alt="Minecraft WildHunt" decoding="async" loading="lazy" />
 
-    <ul v-if="!isAuthenticated" class="flex gap-[32px]">
+    <ul v-if="!isAuthenticated" class="flex gap-[24px]">
       <li v-for="link in NAVIGATION_LINKS" :key="link.path">
         <span
-          class="text-gray-600 cursor-pointer"
+          class="flex items-center gap-[8px] text-gray-600 cursor-pointer"
           :class="{ 'text-white': route.path === link.path }"
-          v-text="link.label"
           @click="router.push(link.path)"
-        />
+        >
+          {{ link.label }}
+
+          <span class="w-[6px] h-[6px] rounded-full" :class="{ 'bg-green-500': route.path === link.path }" />
+        </span>
       </li>
     </ul>
+
+    <button
+      v-if="isAuthenticated"
+      id="log-out-button"
+      type="button"
+      class="px-[24px] h-[48px] bg-gray-800 hover:bg-gray-900 active:bg-gray-900 rounded-[12px] text-white cursor-pointer"
+      @click="onLogOutButtonClick"
+      aria-label="Выйти из аккаунта"
+    >
+      Выйти
+    </button>
   </header>
 </template>
 
@@ -23,6 +37,8 @@ import logoImage from '@/assets/img/logo.svg';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { useRoute, useRouter } from 'vue-router';
+import { debounce } from '@/utils/debounce';
+import { HTTP_STATUS } from '@/constants/status-codes';
 
 const authStore = useAuthStore();
 
@@ -41,4 +57,12 @@ const NAVIGATION_LINKS = [
 
 const route = useRoute();
 const router = useRouter();
+
+const onLogOutButtonClick = debounce(async () => {
+  const response = await authStore.logOut();
+
+  if (response.status === HTTP_STATUS.OK) {
+    router.push('/login');
+  }
+});
 </script>

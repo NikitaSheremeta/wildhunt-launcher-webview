@@ -16,6 +16,10 @@ export const useAuthStore = defineStore('auth', () => {
   const isLogInLoading = ref(false);
   const isLogOutLoading = ref(false);
 
+  const setIsAuthenticated = (value) => {
+    isAuthenticated.value = value;
+  };
+
   // @TODO: Re-implement this method as a refresh token function.
   // @TODO: Implement a real checkAuth route.
   const checkAuth = async () => {
@@ -25,7 +29,7 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await $api.get(AUTH_ENDPOINTS.REFRESH);
 
       if (response.status === HTTP_STATUS.OK) {
-        isAuthenticated.value = true;
+        setIsAuthenticated(true);
 
         notificationsStore.show('Токен обновлен', ALLOWED_THEMES.SUCCESS);
       }
@@ -67,7 +71,7 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await $api.post(AUTH_ENDPOINTS.LOGIN, data);
 
       if (response.status === HTTP_STATUS.OK) {
-        isAuthenticated.value = true;
+        setIsAuthenticated(true);
 
         notificationsStore.show('Вы успешно вошли в аккаунт', ALLOWED_THEMES.SUCCESS);
       }
@@ -89,6 +93,8 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await $api.post(AUTH_ENDPOINTS.LOGOUT);
 
       if (response.status === HTTP_STATUS.OK) {
+        setIsAuthenticated(false);
+
         notificationsStore.show('Вы успешно вышли из аккаунта', ALLOWED_THEMES.SUCCESS);
       }
 
@@ -108,6 +114,7 @@ export const useAuthStore = defineStore('auth', () => {
     isSignUpLoading,
     isLogInLoading,
     isLogOutLoading,
+    setIsAuthenticated,
     checkAuth,
     signUp,
     logIn,

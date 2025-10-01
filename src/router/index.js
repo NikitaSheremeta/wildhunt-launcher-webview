@@ -42,6 +42,10 @@ router.beforeEach(async (to, from, next) => {
         return next({ path: '/login', replace: true });
       }
     }
+
+    if (token) {
+      authStore.setIsAuthenticated(true);
+    }
   }
 
   if (to.path === '/login' || to.path === '/signup') {
