@@ -1,7 +1,7 @@
-import { reactive } from 'vue';
+import { reactive, unref } from 'vue';
 
-export function useFormValidation(element) {
-  const data = reactive({
+export function useFormValidation(fieldsValidation) {
+  const state = reactive({
     valid: false,
     checkValidity: () => {
       checkValidity();
@@ -9,20 +9,24 @@ export function useFormValidation(element) {
   });
 
   const checkValidity = () => {
+    const fv = unref(fieldsValidation) ?? {};
     const invalidFields = [];
 
-    for (const field in element.value.fieldsValidation) {
-      const fieldValidation = element.value.fieldsValidation[field];
+    for (const field in fv) {
+      const fieldValidation = fv[field];
+      if (!fieldValidation) continue;
 
-      fieldValidation.blur();
+      if (typeof fieldValidation.blur === 'function') {
+        fieldValidation.blur();
+      }
 
       if (!fieldValidation.valid) {
         invalidFields.push(field);
       }
     }
 
-    data.valid = !invalidFields.length;
+    state.valid = invalidFields.length === 0;
   };
 
-  return data;
+  return state;
 }
