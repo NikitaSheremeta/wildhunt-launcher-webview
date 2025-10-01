@@ -5,7 +5,7 @@ export function useFieldsValidation(rules, fields) {
   const createData = () => {
     const data = {};
 
-    Object.keys(rules.value ?? {}).map((field) => {
+    Object.keys(rules.value ?? {}).forEach((field) => {
       data[field] = {
         valid: false,
         touched: false,
@@ -19,9 +19,9 @@ export function useFieldsValidation(rules, fields) {
         },
       };
 
-      for (const rule in rules.value[field]) {
+      Object.keys(rules.value[field] ?? {}).forEach((rule) => {
         data[field].errors[rule] = '';
-      }
+      });
     });
 
     return data;
@@ -36,23 +36,26 @@ export function useFieldsValidation(rules, fields) {
     data[field].touched = false;
     data[field].notice = '';
     data[field].errors = {};
+
+    Object.keys(rules.value[field] ?? {}).forEach((rule) => {
+      data[field].errors[rule] = '';
+    });
   };
 
   const reassign = () => {
-    Object.keys(rules.value ?? {}).map((field) => {
+    Object.keys(rules.value ?? {}).forEach((field) => {
       data[field].valid = true;
 
-      for (const rule in rules.value[field]) {
+      Object.keys(rules.value[field] ?? {}).forEach((rule) => {
         const isNotValid = rules.value[field][rule](state.value[field]);
 
         if (isNotValid) {
           data[field].errors[rule] = isNotValid;
-
           data[field].valid = false;
         } else {
           delete data[field].errors[rule];
         }
-      }
+      });
 
       data[field].errors = objectSorting(data[field].errors, [
         'required',

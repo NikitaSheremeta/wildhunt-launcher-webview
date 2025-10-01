@@ -49,7 +49,7 @@ import { required, maxLength, minLength, allowedCharacters } from '@/utils/valid
 import { VALIDATION_MESSAGES } from '@/constants/validation-messages';
 import { VALIDATION_CONSTRAINTS } from '@/constants/validation-constraints';
 import { useFieldsValidation } from '@/hooks/useFieldsValidation';
-import { useFormValidation } from '@/hooks/useFormValidation';
+import { useFormValidator } from '@/hooks/useFormValidator';
 import { debounce } from '@/utils/debounce';
 import { HTTP_STATUS } from '@/constants/status-codes';
 
@@ -81,12 +81,12 @@ const rules = ref({
 
 const fieldsValidation = useFieldsValidation(rules, data);
 
-const loginFormValidation = useFormValidation(fieldsValidation);
+const formValidator = useFormValidator(fieldsValidation);
 
 const onFormSubmit = debounce(async () => {
-  loginFormValidation.checkValidity();
+  const isValid = formValidator.validate();
 
-  if (!loginFormValidation.valid) {
+  if (!isValid) {
     return;
   }
 
