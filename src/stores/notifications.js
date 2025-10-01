@@ -1,41 +1,50 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import { ALLOWED_THEMES, DEFAULT_THEME } from '@/constants/themes';
+import { randomHash } from '@/utils/random-hash';
+
+const DELAY_MS = 5000;
+const MESSAGE_KEY_LENGTH = 10;
 
 export const useNotificationsStore = defineStore('notifications', () => {
   const message = ref(null);
-  const isVisible = ref(false);
+  const messageTheme = ref(null);
+  const messageKey = ref(0);
 
-  let hideTimerId = null;
+  let timer = null;
 
-  const clearHideTimerIfExists = () => {
-    if (hideTimerId) {
-      clearTimeout(hideTimerId);
-      hideTimerId = null;
+  const clearTimer = () => {
+    if (timer) {
+      clearTimeout(timer);
+
+      timer = null;
     }
+  };
+
+  const show = (text, theme = DEFAULT_THEME, duration = DELAY_MS) => {
+    clearTimer();
+
+    message.value = text == null ? '' : String(text);
+    messageTheme.value = Object.values(ALLOWED_THEMES).includes(theme) ? theme : DEFAULT_THEME;
+    messageKey.value = randomHash(MESSAGE_KEY_LENGTH);
+
+    timer = setTimeout(() => {
+      clear();
+    }, duration);
   };
 
   const clear = () => {
     message.value = null;
-    isVisible.value = false;
-    clearHideTimerIfExists();
-  };
+    messageTheme.value = null;
+    messageKey.value = randomHash(MESSAGE_KEY_LENGTH);
 
-  const show = (text, durationMs = 30000) => {
-    clearHideTimerIfExists();
-
-    message.value = text == null ? '' : String(text);
-    isVisible.value = true;
-
-    if (durationMs > 0) {
-      hideTimerId = setTimeout(() => {
-        clear();
-      }, durationMs);
-    }
+    clearTimer();
   };
 
   return {
     message,
-    isVisible,
+    messageTheme,
+    messageKey,
     show,
     clear,
   };

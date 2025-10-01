@@ -53,3 +53,17 @@
 html {
   background-color: var(--color-gray-950);
 }
+
+/* Global transition: slide-up */
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition:
+    transform 0.2s ease-out,
+    opacity 0.2s ease-out;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translateY(48px);
+  opacity: 0;
+}

@@ -1,9 +1,13 @@
 import { defineStore } from 'pinia';
+import { useNotificationsStore } from '@/stores/notifications';
 import { ref } from 'vue';
 import $api from '@/interceptors/index';
 import { AUTH_ENDPOINTS } from '@/constants/endpoints';
+import { ALLOWED_THEMES } from '@/constants/themes';
 
 export const useAuthStore = defineStore('auth', () => {
+  const notificationsStore = useNotificationsStore();
+
   const isCheckingAuthLoading = ref(false);
   const isSignUpLoading = ref(false);
   const isLogInLoading = ref(false);
@@ -17,6 +21,8 @@ export const useAuthStore = defineStore('auth', () => {
 
       return await $api.get(AUTH_ENDPOINTS.REFRESH);
     } catch (error) {
+      notificationsStore.show(error.response.data.message, ALLOWED_THEMES.ERROR);
+
       return error.response;
     } finally {
       isCheckingAuthLoading.value = false;
@@ -27,8 +33,16 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       isSignUpLoading.value = true;
 
-      return await $api.post(AUTH_ENDPOINTS.SIGNUP, data);
+      const response = await $api.post(AUTH_ENDPOINTS.SIGNUP, data);
+
+      if (response.status === 200) {
+        notificationsStore.show('Вы успешно зарегистрированы', ALLOWED_THEMES.SUCCESS);
+      }
+
+      return response;
     } catch (error) {
+      notificationsStore.show(error.response.data.message, ALLOWED_THEMES.ERROR);
+
       return error.response;
     } finally {
       isSignUpLoading.value = false;
@@ -39,8 +53,16 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       isLogInLoading.value = true;
 
-      return await $api.post(AUTH_ENDPOINTS.LOGIN, data);
+      const response = await $api.post(AUTH_ENDPOINTS.LOGIN, data);
+
+      if (response.status === 200) {
+        notificationsStore.show('Вы успешно вошли в аккаунт', ALLOWED_THEMES.SUCCESS);
+      }
+
+      return response;
     } catch (error) {
+      notificationsStore.show(error.response.data.message, ALLOWED_THEMES.ERROR);
+
       return error.response;
     } finally {
       isLogInLoading.value = false;
@@ -51,8 +73,16 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       isLogOutLoading.value = true;
 
-      return await $api.post(AUTH_ENDPOINTS.LOGOUT);
+      const response = await $api.post(AUTH_ENDPOINTS.LOGOUT);
+
+      if (response.status === 200) {
+        notificationsStore.show('Вы успешно вышли из аккаунта', ALLOWED_THEMES.SUCCESS);
+      }
+
+      return response;
     } catch (error) {
+      notificationsStore.show(error.response.data.message, ALLOWED_THEMES.ERROR);
+
       return error.response;
     } finally {
       isLogOutLoading.value = false;
