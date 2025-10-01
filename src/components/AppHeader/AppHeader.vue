@@ -4,7 +4,7 @@
   >
     <img class="w-[100px]" :src="logoImage" alt="Minecraft WildHunt" />
 
-    <ul class="flex gap-[32px]">
+    <ul v-if="!isAuthenticated" class="flex gap-[32px]">
       <li v-for="link in NAVIGATION_LINKS" :key="link.path">
         <span
           class="text-gray-600 cursor-pointer"
@@ -20,7 +20,13 @@
 <script setup>
 import logoImage from '@/assets/img/logo.svg';
 
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
 import { useRoute, useRouter } from 'vue-router';
+
+const authStore = useAuthStore();
+
+const { isAuthenticated } = storeToRefs(authStore);
 
 const NAVIGATION_LINKS = [
   {

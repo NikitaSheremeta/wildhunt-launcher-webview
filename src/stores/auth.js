@@ -9,6 +9,8 @@ import { ALLOWED_THEMES } from '@/constants/themes';
 export const useAuthStore = defineStore('auth', () => {
   const notificationsStore = useNotificationsStore();
 
+  const isAuthenticated = ref(false);
+
   const isCheckingAuthLoading = ref(false);
   const isSignUpLoading = ref(false);
   const isLogInLoading = ref(false);
@@ -20,7 +22,15 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       isCheckingAuthLoading.value = true;
 
-      return await $api.get(AUTH_ENDPOINTS.REFRESH);
+      const response = await $api.get(AUTH_ENDPOINTS.REFRESH);
+
+      if (response.status === HTTP_STATUS.OK) {
+        isAuthenticated.value = true;
+
+        notificationsStore.show('Токен обновлен', ALLOWED_THEMES.SUCCESS);
+      }
+
+      return response;
     } catch (error) {
       notificationsStore.show(error.response.data.message, ALLOWED_THEMES.ERROR);
 
@@ -57,6 +67,8 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await $api.post(AUTH_ENDPOINTS.LOGIN, data);
 
       if (response.status === HTTP_STATUS.OK) {
+        isAuthenticated.value = true;
+
         notificationsStore.show('Вы успешно вошли в аккаунт', ALLOWED_THEMES.SUCCESS);
       }
 
@@ -91,6 +103,7 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   return {
+    isAuthenticated,
     isCheckingAuthLoading,
     isSignUpLoading,
     isLogInLoading,
