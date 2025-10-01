@@ -3,7 +3,7 @@
     <div
       v-if="message"
       :key="messageKey"
-      class="fixed left-1/2 -translate-x-1/2 bottom-4 z-50 h-[48px] w-[320px] max-w-[320px] px-4 py-3 rounded-[12px] shadow-lg text-white backdrop-blur-md justify-center"
+      class="z-50 fixed flex items-center gap-4 left-1/2 -translate-x-1/2 bottom-[24px] h-[48px] w-[320px] max-w-[320px] px-[24px] rounded-full shadow-lg text-white backdrop-blur-md"
       :class="[
         messageTheme === 'default' ? 'bg-gray-900/70' : '',
         messageTheme === 'success' ? 'bg-green-500/70' : '',
@@ -12,18 +12,16 @@
       role="status"
       aria-live="polite"
     >
-      <div class="flex items-start gap-3">
-        <p class="text-sm whitespace-pre-line">{{ message }}</p>
+      <p class="text-sm whitespace-pre-line" v-text="message" />
 
-        <button
-          type="button"
-          class="ml-auto text-white/70 hover:text-white focus:outline-none"
-          aria-label="Close notification"
-          @click="onClose"
-        >
-          ✕
-        </button>
-      </div>
+      <button
+        type="button"
+        class="ml-auto text-white/70 hover:text-white focus:outline-none"
+        aria-label="Close notification"
+        @click="onClose"
+      >
+        <AppIcon icon="cross" color="white" width="12" height="12" />
+      </button>
     </div>
   </transition>
 </template>
@@ -32,6 +30,8 @@
 import { useNotificationsStore } from '@/stores/notifications';
 import { storeToRefs } from 'pinia';
 import { onMounted, onBeforeUnmount } from 'vue';
+
+import AppIcon from '@/components/AppIcon/AppIcon.vue';
 
 const notificationsStore = useNotificationsStore();
 

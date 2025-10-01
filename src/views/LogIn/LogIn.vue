@@ -1,6 +1,10 @@
 <template>
   <form class="flex flex-col w-[320px] select-none" @submit.prevent="onLoginButtonClick">
-    <h1 class="text-2xl text-white">Вход в аккаунт</h1>
+    <h1 class="text-2xl text-white inline-flex items-center gap-[8px]">
+      <AppIcon icon="login" />
+
+      Вход в аккаунт
+    </h1>
 
     <div class="flex flex-col gap-[16px] mt-[24px]">
       <input
@@ -42,6 +46,8 @@ import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
 import { debounce } from '@/utils/debounce';
 import { HTTP_STATUS } from '@/constants/status-codes';
+
+import AppIcon from '@/components/AppIcon/AppIcon.vue';
 
 const authStore = useAuthStore();
 const router = useRouter();
