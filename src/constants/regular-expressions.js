@@ -10,7 +10,7 @@ export const UPPERCASE = /[A-Z]/;
 export const SPECIAL_CHAR = /[^A-Za-z0-9]/;
 
 // Allowed characters whitelist (escape hyphen and brackets correctly)
-export const ALLOWED_CHARACTERS = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
+export const ALLOWED_CHARACTERS = /^[A-Za-z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/;
 
 // Pragmatic email validation: local@domain.tld with 2+ letter TLD; case-insensitive
 export const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
