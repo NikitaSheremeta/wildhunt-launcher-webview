@@ -1,19 +1,19 @@
 <template>
   <header
-    class="w-full py-[16px] flex items-center justify-between bg-gradient-to-b from-[var(--color-gray-900)] to-[rgba(255,255,255,0)]"
+    class="w-full py-4 flex items-center justify-between bg-gradient-to-b from-[var(--color-gray-900)] to-[rgba(255,255,255,0)]"
   >
-    <img class="w-[100px]" :src="logoImage" alt="Minecraft WildHunt" decoding="async" loading="lazy" />
+    <img class="w-[6.25rem]" :src="logoImage" alt="Minecraft WildHunt" decoding="async" loading="lazy" />
 
-    <ul v-if="!isAuthenticated" class="flex gap-[24px]">
+    <ul v-if="!isAuthenticated" class="flex gap-6">
       <li v-for="link in NAVIGATION_LINKS" :key="link.path">
         <span
-          class="flex items-center gap-[8px] text-gray-600 cursor-pointer"
+          class="flex items-center gap-2 text-gray-600 cursor-pointer"
           :class="{ 'text-white': route.path === link.path }"
           @click="router.push(link.path)"
         >
           {{ link.label }}
 
-          <span class="w-[6px] h-[6px] rounded-full" :class="{ 'bg-green-500': route.path === link.path }" />
+          <span class="w-1.5 h-1.5 rounded-full" :class="{ 'bg-green-500': route.path === link.path }" />
         </span>
       </li>
     </ul>
@@ -22,7 +22,7 @@
       v-if="isAuthenticated"
       id="log-out-button"
       type="button"
-      class="px-[24px] h-[48px] bg-gray-800 hover:bg-gray-900 active:bg-gray-900 rounded-[12px] text-white cursor-pointer"
+      class="px-6 h-12 bg-gray-800 hover:bg-gray-900 active:bg-gray-900 rounded-3xl text-white cursor-pointer"
       @click="onLogOutButtonClick"
       aria-label="Выйти из аккаунта"
     >

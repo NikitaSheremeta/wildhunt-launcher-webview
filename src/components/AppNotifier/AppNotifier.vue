@@ -3,7 +3,7 @@
     <div
       v-if="message"
       :key="messageKey"
-      class="z-50 fixed flex items-center gap-4 left-1/2 -translate-x-1/2 bottom-[24px] h-[48px] w-[320px] max-w-[320px] px-[24px] rounded-full shadow-lg text-white backdrop-blur-md"
+      class="z-50 fixed flex items-center gap-4 left-1/2 -translate-x-1/2 bottom-6 h-14 w-80 max-w-80 px-6 rounded-full shadow-lg text-white backdrop-blur-md"
       :class="[
         messageTheme === 'default' ? 'bg-gray-900/70' : '',
         messageTheme === 'success' ? 'bg-green-500/70' : '',

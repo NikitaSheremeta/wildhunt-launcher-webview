@@ -1,6 +1,11 @@
 <template>
   <button :id="id" :type="type" :disabled="disabled" :class="buttonClasses" @click="handleClick">
-    <AppIcon v-if="loading" class="absolute" spin icon="preloader" />
+    <AppIcon
+      v-if="loading"
+      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+      spin
+      icon="preloader"
+    />
 
     <AppIcon
       v-if="iconLeft"
@@ -13,7 +18,7 @@
 
     <AppIcon v-if="icon" :icon="icon" :color="color" :width="computedIconSize" :height="computedIconSize" />
 
-    <span v-if="showLabel" v-text="label" />
+    <span v-if="showLabel" :class="labelClasses" v-text="label" />
 
     <AppIcon
       v-if="iconRight"
@@ -89,7 +94,8 @@ const buttonClasses = computed(() => [
 ]);
 
 const iconOnly = computed(() => !props.label && (props.icon || props.iconLeft || props.iconRight));
-const showLabel = computed(() => Boolean(props.label) && !props.loading && !props.icon);
+const showLabel = computed(() => Boolean(props.label) && !props.icon);
+const labelClasses = computed(() => (props.loading ? 'opacity-0' : ''));
 
 const leftIconClasses = computed(() => (showLabel.value ? 'mr-3' : ''));
 const rightIconClasses = computed(() => (showLabel.value ? 'ml-3' : ''));

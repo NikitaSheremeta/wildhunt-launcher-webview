@@ -64,7 +64,7 @@ html {
 
 .slide-up-enter-from,
 .slide-up-leave-to {
-  transform: translateY(48px);
+  transform: translateY(3rem);
   opacity: 0;
 }
 

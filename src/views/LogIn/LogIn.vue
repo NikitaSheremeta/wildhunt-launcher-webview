@@ -1,18 +1,18 @@
 <template>
-  <form class="flex flex-col w-[320px] select-none" @submit.prevent="onFormSubmit">
-    <h1 class="text-2xl text-white inline-flex items-center gap-[8px]">
+  <form class="flex flex-col w-80 select-none" @submit.prevent="onFormSubmit">
+    <h1 class="text-2xl text-white inline-flex items-center gap-2">
       <AppIcon icon="login" />
 
       Вход в аккаунт
     </h1>
 
-    <div class="flex flex-col gap-[16px] mt-[24px]">
+    <div class="flex flex-col gap-4 mt-6">
       <input
         id="login"
         v-model="data.login"
         @blur="fieldsValidation.login.blur"
         type="text"
-        class="px-[24px] h-[52px] rounded-[12px] bg-gray-800 text-white placeholder:text-gray-600 hover:placeholder:text-gray-700 focus:placeholder:text-gray-700 outline-none"
+        class="px-6 h-12 rounded-xl bg-gray-800 text-white placeholder:text-gray-600 hover:placeholder:text-gray-700 focus:placeholder:text-gray-700 outline-none"
         placeholder="Имя игрока / электронная почта"
       />
 
@@ -20,12 +20,12 @@
         id="password"
         v-model="data.password"
         type="password"
-        class="px-[24px] h-[52px] rounded-[12px] bg-gray-800 text-white placeholder:text-gray-600 hover:placeholder:text-gray-700 focus:placeholder:text-gray-700 outline-none"
+        class="px-6 h-12 rounded-xl bg-gray-800 text-white placeholder:text-gray-600 hover:placeholder:text-gray-700 focus:placeholder:text-gray-700 outline-none"
         placeholder="Пароль"
       />
     </div>
 
-    <div class="mt-[24px]">
+    <div class="mt-6">
       <AppButton
         id="login-button"
         type="submit"
@@ -36,7 +36,7 @@
       />
     </div>
 
-    <span class="mt-[16px] text-sm text-gray-600 hover:text-white active:text-white cursor-pointer">
+    <span class="mt-4 text-sm text-gray-600 hover:text-white active:text-white cursor-pointer">
       Забыли пароль или не можете войти?
     </span>
   </form>
