@@ -67,3 +67,19 @@ html {
   transform: translateY(48px);
   opacity: 0;
 }
+
+/* Global transition: spin */
+.spin {
+  animation: spin 3s infinite;
+  animation-timing-function: cubic-bezier(0.1, 0.55, 0.265, 3);
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

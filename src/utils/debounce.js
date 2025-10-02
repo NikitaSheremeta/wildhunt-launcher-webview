@@ -1,4 +1,4 @@
-const DELAY_MS = 300;
+export const DELAY_MS = 300;
 
 export function debounce(callback, wait = DELAY_MS) {
   if (typeof callback !== 'function') {

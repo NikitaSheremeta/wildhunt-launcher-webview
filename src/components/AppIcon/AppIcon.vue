@@ -8,6 +8,7 @@
     :height="height"
     :fill="color"
     viewBox="0 0 54 54"
+    :class="[spin ? 'spin' : '']"
   >
     <template v-if="icon === 'eye'">
       <path

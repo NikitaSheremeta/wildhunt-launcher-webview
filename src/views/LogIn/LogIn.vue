@@ -26,13 +26,14 @@
     </div>
 
     <div class="mt-[24px]">
-      <button
+      <AppButton
         id="login-button"
-        class="px-[24px] w-full h-[48px] bg-violet-500 hover:bg-violet-600 active:bg-violet-600 rounded-[12px] text-white cursor-pointer"
         type="submit"
-      >
-        Войти
-      </button>
+        theme="primary"
+        label="Войти"
+        :disabled="isLogInLoading"
+        :loading="isLogInLoading"
+      />
     </div>
 
     <span class="mt-[16px] text-sm text-gray-600 hover:text-white active:text-white cursor-pointer">
@@ -44,6 +45,7 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
 import { ref, reactive } from 'vue';
 import { required, maxLength, minLength, allowedCharacters } from '@/utils/validators';
 import { VALIDATION_MESSAGES } from '@/constants/validation-messages';
@@ -54,9 +56,12 @@ import { debounce } from '@/utils/debounce';
 import { HTTP_STATUS } from '@/constants/status-codes';
 
 import AppIcon from '@/components/AppIcon/AppIcon.vue';
+import AppButton from '@/components/AppButton/AppButton.vue';
 
 const authStore = useAuthStore();
 const router = useRouter();
+
+const { isLogInLoading } = storeToRefs(authStore);
 
 const data = reactive({
   login: '',
