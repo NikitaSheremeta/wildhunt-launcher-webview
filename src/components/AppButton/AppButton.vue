@@ -87,7 +87,7 @@ const THEME_STYLES = {
 };
 
 const buttonClasses = computed(() => [
-  'relative inline-flex items-center justify-center px-12 h-12 rounded-xl text-white w-full overflow-hidden select-none transition duration-200',
+  'relative inline-flex items-center justify-center px-12 h-12 rounded-xl text-white w-full overflow-hidden select-none outline-none transition duration-200',
   !props.disabled ? THEME_STYLES[props.theme] : '',
   props.disabled ? 'cursor-default bg-gray-900/80' : 'cursor-pointer',
   iconOnly.value ? 'p-0 w-12 h-12 rounded-full' : '',

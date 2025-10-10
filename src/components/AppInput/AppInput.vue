@@ -35,12 +35,12 @@
       <div v-if="shouldDisplayIcon" class="flex items-center gap-3 pr-6" @mousedown.prevent @mouseup="onMouseupIcon">
         <slot v-if="$slots.icon" name="icon" />
 
-        <AppIcon v-if="icon" :icon="icon" color="white" />
+        <AppIcon v-if="icon" :icon="icon" />
 
         <AppIcon
           v-if="validation && !disableSuccessIcon && validation.valid"
           icon="check"
-          color="#41C987"
+          color="green-500"
           width="16"
           height="16"
         />
@@ -48,7 +48,7 @@
         <AppIcon
           v-if="validation && validation.touched && !validation.valid"
           icon="exclamation"
-          color="#D89B53"
+          color="orange-500"
           width="16"
           height="16"
         />
@@ -59,7 +59,7 @@
 
     <span
       v-if="shouldDisplayValidationMessage"
-      class="mt-2 text-xs select-none"
+      class="block my-2 text-sm select-none"
       :class="validationClasses"
       v-text="validation.notice"
     />

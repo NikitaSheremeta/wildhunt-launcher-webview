@@ -6,7 +6,7 @@
     :aria-labelledby="icon"
     :width="width"
     :height="height"
-    :fill="color"
+    :fill="fillColor"
     viewBox="0 0 54 54"
     :class="[spin ? 'spin' : '']"
   >
@@ -193,7 +193,10 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue';
+import { resolveColorTokenToCss } from '@/utils/color-token';
+
+const props = defineProps({
   color: {
     type: String,
     default: 'white',
@@ -219,4 +222,6 @@ defineProps({
     default: false,
   },
 });
+
+const fillColor = computed(() => resolveColorTokenToCss(props.color));
 </script>
