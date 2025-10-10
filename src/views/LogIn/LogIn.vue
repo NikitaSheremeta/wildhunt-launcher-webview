@@ -1,26 +1,26 @@
 <template>
   <form class="flex flex-col w-80 select-none" @submit.prevent="onFormSubmit">
-    <h1 class="text-2xl text-white inline-flex items-center gap-2">
-      <AppIcon icon="login" />
-
-      Вход в аккаунт
-    </h1>
+    <h1 class="text-2xl text-white inline-flex items-center gap-2"><AppIcon icon="login" /> Вход в аккаунт</h1>
 
     <div class="flex flex-col gap-4 mt-6">
-      <input
+      <AppInput
         id="login"
+        name="login"
         v-model="data.login"
-        @blur="fieldsValidation.login.blur"
         type="text"
-        class="px-6 h-12 rounded-xl bg-gray-800 text-white placeholder:text-gray-600 hover:placeholder:text-gray-700 focus:placeholder:text-gray-700 outline-none"
+        :validation="fieldsValidation.login"
+        :maxLength="VALIDATION_CONSTRAINTS.LOGIN_OR_EMAIL.MAX_LENGTH"
         placeholder="Имя игрока / электронная почта"
+        autocomplete
       />
 
-      <input
+      <AppInput
         id="password"
+        name="password"
         v-model="data.password"
         type="password"
-        class="px-6 h-12 rounded-xl bg-gray-800 text-white placeholder:text-gray-600 hover:placeholder:text-gray-700 focus:placeholder:text-gray-700 outline-none"
+        :validation="fieldsValidation.password"
+        :maxLength="VALIDATION_CONSTRAINTS.PASSWORD.MAX_LENGTH"
         placeholder="Пароль"
       />
     </div>
@@ -57,6 +57,7 @@ import { HTTP_STATUS } from '@/constants/status-codes';
 
 import AppIcon from '@/components/AppIcon/AppIcon.vue';
 import AppButton from '@/components/AppButton/AppButton.vue';
+import AppInput from '@/components/AppInput/AppInput.vue';
 
 const authStore = useAuthStore();
 const router = useRouter();
