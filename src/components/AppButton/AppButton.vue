@@ -82,14 +82,14 @@ const props = defineProps({
 const emit = defineEmits(['click']);
 
 const THEME_STYLES = {
-  primary: 'bg-violet-500 md:hover:bg-violet-600 md:focus:bg-violet-600 active:bg-violet-600',
-  secondary: 'bg-gray-800 md:hover:bg-gray-900 md:focus:bg-gray-900 active:bg-gray-900',
+  primary: 'text-white bg-violet-500 md:hover:bg-violet-600 md:focus:bg-violet-600 active:bg-violet-600',
+  secondary: 'text-whitebg-gray-800 md:hover:bg-gray-900 md:focus:bg-gray-900 active:bg-gray-900',
 };
 
 const buttonClasses = computed(() => [
-  'relative inline-flex items-center justify-center px-12 h-12 rounded-xl text-white w-full overflow-hidden select-none outline-none transition duration-200',
+  'relative inline-flex items-center justify-center px-12 h-12 rounded-xl w-full overflow-hidden select-none outline-none transition duration-200',
   !props.disabled ? THEME_STYLES[props.theme] : '',
-  props.disabled ? 'cursor-default bg-gray-900/80' : 'cursor-pointer',
+  props.disabled ? 'cursor-default bg-gray-900/80 text-gray-700' : 'cursor-pointer',
   iconOnly.value ? 'p-0 w-12 h-12 rounded-full' : '',
 ]);
 

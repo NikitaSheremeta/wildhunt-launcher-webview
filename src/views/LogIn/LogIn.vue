@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col w-80 select-none" @submit.prevent="onFormSubmit">
+  <form class="flex flex-col mt-40 w-80 select-none" @submit.prevent="onFormSubmit">
     <h1 class="text-2xl text-white inline-flex items-center gap-2"><AppIcon icon="login" /> Вход в аккаунт</h1>
 
     <div class="flex flex-col gap-4 mt-6">
@@ -31,12 +31,12 @@
         type="submit"
         theme="primary"
         label="Войти"
-        :disabled="isLogInLoading"
+        :disabled="isSubmitDisabled"
         :loading="isLogInLoading"
       />
     </div>
 
-    <span class="mt-4 text-sm text-gray-600 hover:text-white active:text-white cursor-pointer">
+    <span class="mt-3 text-sm text-gray-600 hover:text-white active:text-white cursor-pointer">
       Забыли пароль или не можете войти?
     </span>
   </form>
@@ -46,7 +46,7 @@
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { required, maxLength, minLength, allowedCharacters } from '@/utils/validators';
 import { VALIDATION_MESSAGES } from '@/constants/validation-messages';
 import { VALIDATION_CONSTRAINTS } from '@/constants/validation-constraints';
@@ -88,6 +88,8 @@ const rules = ref({
 const fieldsValidation = useFieldsValidation(rules, data);
 
 const formValidator = useFormValidator(fieldsValidation);
+
+const isSubmitDisabled = computed(() => isLogInLoading.value || !formValidator.isValid.value);
 
 const onFormSubmit = debounce(async () => {
   const isValid = formValidator.validate();

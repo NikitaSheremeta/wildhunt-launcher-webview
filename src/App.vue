@@ -1,7 +1,7 @@
 <template>
   <AppHeader class="fixed px-6 top-0 left-0 min-w-[36.25rem]" />
 
-  <div class="flex items-center justify-center w-screen h-screen min-w-[36.25rem]">
+  <div class="flex justify-center w-screen h-screen min-w-[36.25rem]">
     <router-view />
   </div>
 

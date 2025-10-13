@@ -59,7 +59,7 @@
 
     <span
       v-if="shouldDisplayValidationMessage"
-      class="block my-2 text-sm select-none"
+      class="block mt-3 text-sm select-none"
       :class="validationClasses"
       v-text="validation.notice"
     />
