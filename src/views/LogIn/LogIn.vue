@@ -1,35 +1,36 @@
 <template>
   <form class="flex flex-col mt-40 w-80 select-none" @submit.prevent="onFormSubmit">
-    <h1 class="text-2xl text-white inline-flex items-center gap-2"><AppIcon icon="login" /> Вход в аккаунт</h1>
+    <h1 class="text-2xl text-white inline-flex items-center gap-2">Вход в аккаунт</h1>
 
     <div class="flex flex-col gap-4 mt-6">
       <AppInput
         id="login"
         name="login"
-        v-model="data.login"
         type="text"
+        placeholder="Логин или электронная почта"
+        autocomplete
+        autofocus
+        v-model="data.login"
         :validation="fieldsValidation.login"
         :maxLength="VALIDATION_CONSTRAINTS.LOGIN_OR_EMAIL.MAX_LENGTH"
-        placeholder="Имя игрока / электронная почта"
-        autocomplete
       />
 
       <AppInput
         id="password"
         name="password"
-        v-model="data.password"
         type="password"
+        placeholder="Пароль"
+        v-model="data.password"
         :validation="fieldsValidation.password"
         :maxLength="VALIDATION_CONSTRAINTS.PASSWORD.MAX_LENGTH"
-        placeholder="Пароль"
       />
     </div>
 
     <div class="mt-6">
       <AppButton
         id="login-button"
-        type="submit"
         theme="primary"
+        type="submit"
         label="Войти"
         :disabled="isSubmitDisabled"
         :loading="isLogInLoading"
@@ -55,9 +56,8 @@ import { useFormValidator } from '@/hooks/useFormValidator';
 import { debounce } from '@/utils/debounce';
 import { HTTP_STATUS } from '@/constants/status-codes';
 
-import AppIcon from '@/components/AppIcon/AppIcon.vue';
-import AppButton from '@/components/AppButton/AppButton.vue';
 import AppInput from '@/components/AppInput/AppInput.vue';
+import AppButton from '@/components/AppButton/AppButton.vue';
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -72,6 +72,7 @@ const data = reactive({
 const rules = ref({
   login: {
     required: required(VALIDATION_MESSAGES.BASE.REQUIRED),
+    minLength: minLength(VALIDATION_CONSTRAINTS.LOGIN.MIN_LENGTH, VALIDATION_MESSAGES.LOGIN.MIN_LENGTH),
     maxLength: maxLength(
       VALIDATION_CONSTRAINTS.LOGIN_OR_EMAIL.MAX_LENGTH,
       VALIDATION_MESSAGES.LOGIN_OR_EMAIL.MAX_LENGTH,

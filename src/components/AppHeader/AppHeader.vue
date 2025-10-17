@@ -43,11 +43,11 @@ const { isAuthenticated } = storeToRefs(authStore);
 
 const NAVIGATION_LINKS = [
   {
-    label: 'Вход в аккаунт',
+    label: 'Вход',
     path: '/login',
   },
   {
-    label: 'Регистрация аккаунта',
+    label: 'Регистрация',
     path: '/signup',
   },
 ];
