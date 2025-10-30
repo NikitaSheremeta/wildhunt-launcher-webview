@@ -3,18 +3,17 @@
     <h1 class="text-2xl text-white inline-flex items-center gap-2">Регистрация аккаунта</h1>
 
     <div class="flex flex-col gap-4 mt-6">
-      <AppInput
-        id="login"
-        name="login"
-        type="text"
-        placeholder="Логин или электронная почта"
-        autofocus
-        v-model="data.username"
-      />
+      <AppInput id="username" name="username" type="text" placeholder="Логин" autofocus v-model="data.username" />
+
+      <AppInput id="email" name="email" type="text" placeholder="Электронная почта" autofocus v-model="data.email" />
+
+      <AppPassword v-model="data.password" create placeholder="Пароль" />
+
+      <AppPassword v-model="data.passwordConfirmation" placeholder="Подтверждение пароля" />
     </div>
 
     <div class="mt-6">
-      <AppButton id="login-button" type="submit" theme="primary" label="Войти" />
+      <AppButton id="login-button" type="submit" theme="primary" label="Зарегистрироваться" />
     </div>
   </form>
 </template>
@@ -23,6 +22,7 @@
 import { reactive } from 'vue';
 
 import AppInput from '@/components/AppInput/AppInput.vue';
+import AppPassword from '@/components/AppPassword/AppPassword.vue';
 import AppButton from '@/components/AppButton/AppButton.vue';
 
 const data = reactive({

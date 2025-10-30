@@ -9,9 +9,12 @@
         <span
           class="flex items-center gap-2 text-gray-600 cursor-pointer"
           :class="{ 'text-white': route.path === link.path }"
-          v-text="link.label"
           @click="router.push(link.path)"
-        />
+        >
+          {{ link.label }}
+
+          <span class="w-1.5 h-1.5 rounded-full" :class="{ 'bg-green-500': route.path === link.path }" />
+        </span>
       </li>
     </ul>
 

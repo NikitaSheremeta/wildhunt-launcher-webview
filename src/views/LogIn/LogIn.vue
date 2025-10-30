@@ -27,14 +27,7 @@
     </div>
 
     <div class="mt-6">
-      <AppButton
-        id="login-button"
-        theme="primary"
-        type="submit"
-        label="Войти"
-        :disabled="isSubmitDisabled"
-        :loading="isLogInLoading"
-      />
+      <AppButton id="login-button" theme="primary" type="submit" label="Войти" :loading="isLogInLoading" />
     </div>
 
     <span class="mt-3 text-sm text-gray-600 hover:text-white active:text-white cursor-pointer">
@@ -89,8 +82,6 @@ const rules = ref({
 const fieldsValidation = useFieldsValidation(rules, data);
 
 const formValidator = useFormValidator(fieldsValidation);
-
-const isSubmitDisabled = computed(() => isLogInLoading.value || !formValidator.isValid.value);
 
 const onFormSubmit = debounce(async () => {
   const isValid = formValidator.validate();
