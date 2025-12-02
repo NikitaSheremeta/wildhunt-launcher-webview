@@ -3,9 +3,9 @@
     <h1 class="text-2xl text-white inline-flex items-center gap-2">Регистрация аккаунта</h1>
 
     <div class="flex flex-col gap-4 mt-6">
-      <AppInput id="username" name="username" type="text" placeholder="Логин" autofocus v-model="data.username" />
+      <AppInput id="username" name="username" type="text" placeholder="Логин" v-model="data.username" />
 
-      <AppInput id="email" name="email" type="text" placeholder="Электронная почта" autofocus v-model="data.email" />
+      <AppInput id="email" name="email" type="text" placeholder="Электронная почта" v-model="data.email" />
 
       <AppPassword v-model="data.password" create placeholder="Пароль" />
 

@@ -8,8 +8,6 @@
         name="login"
         type="text"
         placeholder="Логин или электронная почта"
-        autocomplete
-        autofocus
         v-model="data.login"
         :validation="fieldsValidation.login"
         :maxLength="VALIDATION_CONSTRAINTS.LOGIN_OR_EMAIL.MAX_LENGTH"
