@@ -17,10 +17,10 @@
       <AppIcon icon="check" width="12" height="12" color="white" aria-hidden="true" :class="iconClasses" />
     </span>
 
-    <span v-if="hasContent" class="text-sm text-gray-200">
-      <slot>
-        {{ label }}
-      </slot>
+    <span v-if="hasContent" :class="labelClasses">
+      <span v-if="label" class="mr-1" v-text="label" />
+
+      <slot />
     </span>
   </label>
 </template>
@@ -35,16 +35,25 @@ const VARIANT_STYLES = {
     checked: 'bg-violet-500 border-violet-500',
     hover: 'group-hover:border-violet-400',
     ring: 'peer-focus-visible:ring-violet-400',
+    label: 'text-gray-200',
+  },
+  secondary: {
+    checked: 'bg-gray-200 border-gray-200',
+    hover: 'group-hover:border-gray-100',
+    ring: 'peer-focus-visible:ring-gray-100',
+    label: 'text-gray-500',
   },
   success: {
     checked: 'bg-green-500 border-green-500',
     hover: 'group-hover:border-green-400',
     ring: 'peer-focus-visible:ring-green-400',
+    label: 'text-gray-200',
   },
   warning: {
     checked: 'bg-orange-500 border-orange-500',
     hover: 'group-hover:border-orange-400',
     ring: 'peer-focus-visible:ring-orange-400',
+    label: 'text-gray-200',
   },
 };
 
@@ -88,7 +97,7 @@ const variant = computed(() => VARIANT_STYLES[props.color] || VARIANT_STYLES.pri
 const hasContent = computed(() => Boolean(slots.default) || Boolean(props.label));
 
 const rootClasses = computed(() => [
-  'group inline-flex items-center gap-3 text-gray-200 leading-tight select-none',
+  'group inline-flex gap-3 leading-tight select-none',
   props.disabled ? 'cursor-default opacity-60' : 'cursor-pointer',
 ]);
 
@@ -102,6 +111,8 @@ const checkboxClasses = computed(() => [
 ]);
 
 const iconClasses = computed(() => ['transition-opacity duration-150', props.modelValue ? 'opacity-100' : 'opacity-0']);
+
+const labelClasses = computed(() => ['text-sm', props.disabled ? 'text-gray-500' : variant.value.label]);
 
 const onChange = (event) => {
   const isChecked = event.target.checked;

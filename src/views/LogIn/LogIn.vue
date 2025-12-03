@@ -28,7 +28,9 @@
       <AppButton id="login-button" theme="primary" type="submit" label="Войти" :loading="isLogInLoading" />
     </div>
 
-    <span class="mt-3 text-sm text-gray-600 hover:text-white active:text-white cursor-pointer">
+    <span
+      class="mt-3 text-sm text-gray-600 hover:text-white active:text-white cursor-pointer underline underline-offset-4"
+    >
       Забыли пароль или не можете войти?
     </span>
   </form>

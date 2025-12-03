@@ -15,6 +15,16 @@
     <div class="mt-6">
       <AppButton id="login-button" type="submit" theme="primary" label="Зарегистрироваться" />
     </div>
+
+    <div class="mt-6">
+      <AppCheckbox v-model="flags.eula" color="secondary" label="Я принимаю">
+        <AppLink href="terms" color="secondary" label="пользовательское соглашение" small underline />
+
+        <br />и
+
+        <AppLink href="privacy-policy" color="secondary" label="политику конфиденциальности" small underline />
+      </AppCheckbox>
+    </div>
   </form>
 </template>
 
@@ -24,11 +34,17 @@ import { reactive } from 'vue';
 import AppInput from '@/components/AppInput/AppInput.vue';
 import AppPassword from '@/components/AppPassword/AppPassword.vue';
 import AppButton from '@/components/AppButton/AppButton.vue';
+import AppCheckbox from '@/components/AppCheckbox/AppCheckbox.vue';
+import AppLink from '@/components/AppLink/AppLink.vue';
 
 const data = reactive({
   username: '',
   email: '',
   password: '',
   passwordConfirmation: '',
+});
+
+const flags = reactive({
+  eula: false,
 });
 </script>

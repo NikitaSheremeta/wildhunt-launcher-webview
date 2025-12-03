@@ -16,6 +16,7 @@
         <AppIcon
           :id="iconId"
           :icon="state.type === 'password' ? 'eye' : 'eye-slash'"
+          color="#878796"
           class="cursor-pointer"
           @click="onClickIcon"
         />
@@ -30,7 +31,7 @@
 
         <span
           v-if="state.notice"
-          class="mt-2 w-full text-xs select-none"
+          class="block mt-3 w-full text-sm select-none"
           :class="noticeClasses"
           v-text="state.notice"
         />
