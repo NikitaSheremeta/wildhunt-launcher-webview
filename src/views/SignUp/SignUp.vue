@@ -10,20 +10,18 @@
       <AppPassword v-model="data.password" create placeholder="Пароль" />
 
       <AppPassword v-model="data.passwordConfirmation" placeholder="Подтверждение пароля" />
-    </div>
 
-    <div class="mt-6">
-      <AppButton id="login-button" type="submit" theme="primary" label="Зарегистрироваться" />
-    </div>
-
-    <div class="mt-6">
-      <AppCheckbox v-model="flags.eula" color="secondary" label="Я принимаю">
+      <AppCheckbox v-model="flags.eula" label="Я принимаю">
         <AppLink href="terms" color="secondary" label="пользовательское соглашение" small underline />
 
         <br />и
 
         <AppLink href="privacy-policy" color="secondary" label="политику конфиденциальности" small underline />
       </AppCheckbox>
+    </div>
+
+    <div class="mt-6">
+      <AppButton :disabled="!flags.eula" type="submit" theme="primary" label="Зарегистрироваться" />
     </div>
   </form>
 </template>
