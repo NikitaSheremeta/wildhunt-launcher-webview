@@ -22,7 +22,7 @@
         />
       </template>
 
-      <template v-if="create" #extension>
+      <template v-if="create && validation" #extension>
         <div class="grid grid-cols-3 gap-2 mt-3 w-full">
           <span :class="meterItemClasses(1)" />
           <span :class="meterItemClasses(2)" />
@@ -86,7 +86,7 @@ const state = reactive({
   value: '',
   type: 'password',
   status: '', // '', 'invalid', 'danger', 'warning', 'success'
-  notice: STRENGTH_NOTICE.DEFAULT,
+  notice: props.validation ? STRENGTH_NOTICE.DEFAULT : '',
 });
 
 const rootClasses = computed(() => ['w-full', props.disabled ? 'opacity-60' : '']);
@@ -184,7 +184,7 @@ function reassign() {
   } else if (!props.validation || props.validation.valid === undefined) {
     // Fallback notice when we do not have validation state
     state.status = '';
-    state.notice = STRENGTH_NOTICE.DEFAULT;
+    state.notice = props.validation ? STRENGTH_NOTICE.DEFAULT : '';
   }
 }
 

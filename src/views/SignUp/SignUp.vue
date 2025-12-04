@@ -43,6 +43,6 @@ const data = reactive({
 });
 
 const flags = reactive({
-  eula: false,
+  eula: true,
 });
 </script>
