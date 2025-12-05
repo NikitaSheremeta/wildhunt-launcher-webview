@@ -6,9 +6,10 @@
       class="z-50 fixed flex items-center gap-4 left-1/2 -translate-x-1/2 bottom-6 h-14 w-80 max-w-80 px-6 rounded-full shadow-lg text-white backdrop-blur-md"
       :class="[
         messageTheme === 'default' ? 'bg-gray-900/70' : '',
-        messageTheme === 'success' ? 'bg-green-500/70' : '',
-        messageTheme === 'error' ? 'bg-orange-800' : '',
+        messageTheme === 'success' ? 'bg-green-700' : '',
+        messageTheme === 'error' ? 'bg-orange-700' : '',
       ]"
+      :style="notificationStyle"
       role="status"
       aria-live="polite"
     >
@@ -29,13 +30,25 @@
 <script setup>
 import { useNotificationsStore } from '@/stores/notifications';
 import { storeToRefs } from 'pinia';
-import { onMounted, onBeforeUnmount } from 'vue';
+import { onMounted, onBeforeUnmount, computed } from 'vue';
 
 import AppIcon from '@/components/AppIcon/AppIcon.vue';
 
 const notificationsStore = useNotificationsStore();
 
 const { message, messageTheme, messageKey } = storeToRefs(notificationsStore);
+
+const themeShadowColors = {
+  default: 'rgba(17, 24, 39, 0.3)',
+  success: 'rgba(34, 197, 94, 0.3)',
+  error: 'rgba(194, 65, 12, 0.3)',
+};
+
+const notificationStyle = computed(() => {
+  return {
+    boxShadow: `0px 8px 24px ${themeShadowColors[messageTheme.value]}`,
+  };
+});
 
 const onClose = () => notificationsStore.clear();
 
