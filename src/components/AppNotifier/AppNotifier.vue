@@ -7,7 +7,7 @@
       :class="[
         messageTheme === 'default' ? 'bg-gray-900/70' : '',
         messageTheme === 'success' ? 'bg-green-500/70' : '',
-        messageTheme === 'error' ? 'bg-red-500/70' : '',
+        messageTheme === 'error' ? 'bg-orange-800' : '',
       ]"
       role="status"
       aria-live="polite"
@@ -16,7 +16,7 @@
 
       <button
         type="button"
-        class="ml-auto text-white/70 hover:text-white focus:outline-none"
+        class="ml-auto opacity-60 hover:opacity-100 focus:opacity-100 focus:outline-none transition duration-200 cursor-pointer"
         aria-label="Close notification"
         @click="onClose"
       >

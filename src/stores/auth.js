@@ -5,6 +5,7 @@ import $api from '@/interceptors/index';
 import { AUTH_ENDPOINTS } from '@/constants/endpoints';
 import { HTTP_STATUS } from '@/constants/status-codes';
 import { ALLOWED_THEMES } from '@/constants/themes';
+import { buildResponseErrorMessage } from '@/utils/response-error-message';
 
 export const useAuthStore = defineStore('auth', () => {
   const notificationsStore = useNotificationsStore();
@@ -36,7 +37,10 @@ export const useAuthStore = defineStore('auth', () => {
 
       return response;
     } catch (error) {
-      notificationsStore.show(error.response.data.message, ALLOWED_THEMES.ERROR);
+      notificationsStore.show(
+        buildResponseErrorMessage({ endpoint: AUTH_ENDPOINTS.REFRESH, error }),
+        ALLOWED_THEMES.ERROR,
+      );
 
       return error.response;
     } finally {
@@ -56,7 +60,10 @@ export const useAuthStore = defineStore('auth', () => {
 
       return response;
     } catch (error) {
-      notificationsStore.show(error.response.data.message, ALLOWED_THEMES.ERROR);
+      notificationsStore.show(
+        buildResponseErrorMessage({ endpoint: AUTH_ENDPOINTS.SIGNUP, error }),
+        ALLOWED_THEMES.ERROR,
+      );
 
       return error.response;
     } finally {
@@ -78,7 +85,10 @@ export const useAuthStore = defineStore('auth', () => {
 
       return response;
     } catch (error) {
-      notificationsStore.show(error.response.data.message, ALLOWED_THEMES.ERROR);
+      notificationsStore.show(
+        buildResponseErrorMessage({ endpoint: AUTH_ENDPOINTS.LOGIN, error }),
+        ALLOWED_THEMES.ERROR,
+      );
 
       return error.response;
     } finally {
@@ -100,7 +110,10 @@ export const useAuthStore = defineStore('auth', () => {
 
       return response;
     } catch (error) {
-      notificationsStore.show(error.response.data.message, ALLOWED_THEMES.ERROR);
+      notificationsStore.show(
+        buildResponseErrorMessage({ endpoint: AUTH_ENDPOINTS.LOGOUT, error }),
+        ALLOWED_THEMES.ERROR,
+      );
 
       return error.response;
     } finally {
