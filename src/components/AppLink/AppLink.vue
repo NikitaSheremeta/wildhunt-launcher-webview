@@ -131,7 +131,7 @@ const componentAttrs = computed(() => {
 const variant = computed(() => VARIANT_STYLES[props.color] || VARIANT_STYLES.primary);
 
 const rootClasses = computed(() => [
-  'inline-flex items-center gap-3 font-medium transition-colors duration-150 outline-none',
+  'inline-flex items-center gap-2 font-medium transition-colors duration-150 outline-none',
   props.small ? 'text-sm' : 'text-base',
   props.underline ? 'underline underline-offset-4' : '',
   props.disabled ? 'cursor-default text-gray-700 opacity-60' : 'cursor-pointer',

@@ -17,6 +17,7 @@
         :disabled="disabled"
         :maxlength="maxLength || undefined"
         v-on="inputListeners"
+        @copy="onCopy"
       />
 
       <textarea
@@ -30,6 +31,7 @@
         :disabled="disabled"
         :maxlength="maxLength || undefined"
         v-on="inputListeners"
+        @copy="onCopy"
       />
 
       <div v-if="shouldDisplayIcon" class="flex items-center gap-3 pr-6" @mousedown.prevent @mouseup="onMouseupIcon">
@@ -152,6 +154,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  disableCopy: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'keydown', 'input', 'click', 'focus', 'blur']);
@@ -226,6 +232,14 @@ const inputListeners = computed(() => ({
     emit('blur', event);
   },
 }));
+
+const onCopy = (event) => {
+  if (!props.disableCopy) {
+    return;
+  }
+
+  event.preventDefault();
+};
 
 const onMouseupIcon = () => {
   setTimeout(() => {

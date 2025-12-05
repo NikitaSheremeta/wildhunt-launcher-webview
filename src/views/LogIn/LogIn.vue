@@ -28,11 +28,15 @@
       <AppButton id="login-button" theme="primary" type="submit" label="Войти" :loading="isLogInLoading" />
     </div>
 
-    <span
-      class="mt-3 text-sm text-gray-600 hover:text-white active:text-white cursor-pointer underline underline-offset-4"
-    >
-      Забыли пароль или не можете войти?
-    </span>
+    <AppLink
+      href="/forgot-password"
+      color="secondary"
+      label="Забыли пароль или не можете войти"
+      iconLeft="question"
+      small
+      underline
+      class="mt-3"
+    />
   </form>
 </template>
 
@@ -50,6 +54,7 @@ import { debounce } from '@/utils/debounce';
 import { HTTP_STATUS } from '@/constants/status-codes';
 import AppInput from '@/components/AppInput/AppInput.vue';
 import AppButton from '@/components/AppButton/AppButton.vue';
+import AppLink from '@/components/AppLink/AppLink.vue';
 
 const authStore = useAuthStore();
 const router = useRouter();

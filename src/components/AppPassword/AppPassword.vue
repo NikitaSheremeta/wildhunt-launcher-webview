@@ -7,6 +7,7 @@
       :placeholder="placeholder"
       :disabled="disabled"
       :max-length="maxLength"
+      disable-copy
       trim
       :disable-success-icon="disableSuccessIcon"
       :disable-notice="create"
