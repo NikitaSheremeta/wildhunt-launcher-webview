@@ -37,14 +37,6 @@
         :validation="fieldsValidation.passwordConfirmation"
         :maxLength="VALIDATION_CONSTRAINTS.PASSWORD.MAX_LENGTH"
       />
-
-      <AppCheckbox v-model="flags.eula" label="Я принимаю">
-        <AppLink href="terms" color="secondary" label="пользовательское соглашение" small underline />
-
-        <br />и
-
-        <AppLink href="privacy-policy" color="secondary" label="политику конфиденциальности" small underline />
-      </AppCheckbox>
     </div>
 
     <div class="mt-6">
@@ -56,6 +48,14 @@
         :loading="isSignUpLoading"
       />
     </div>
+
+    <AppCheckbox v-model="flags.eula" label="Я принимаю" class="mt-4">
+      <AppLink href="terms" color="secondary" label="пользовательское соглашение" small underline />
+
+      <br />и
+
+      <AppLink href="privacy-policy" color="secondary" label="политику конфиденциальности" small underline />
+    </AppCheckbox>
   </form>
 </template>
 

@@ -35,7 +35,7 @@
       iconLeft="question"
       small
       underline
-      class="mt-3"
+      class="mt-4"
     />
   </form>
 </template>
