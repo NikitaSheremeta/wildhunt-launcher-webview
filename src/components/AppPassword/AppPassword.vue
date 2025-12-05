@@ -17,7 +17,7 @@
       <template #icon>
         <AppIcon
           :icon="state.type === 'password' ? 'eye' : 'eye-slash'"
-          color="#878796"
+          color="gray-600"
           class="cursor-pointer"
           @click="onClickIcon"
         />
@@ -188,7 +188,7 @@ const getStrengthScore = () => {
   for (const check in variations) {
     variationsCount += variations[check] === true ? 1 : 0;
   }
-   
+
   score += (variationsCount - 1) * 10;
 
   return score * 0.85;
@@ -200,17 +200,12 @@ const reassign = () => {
   if (props.validation.valid && state.value.length >= VALIDATION_CONSTRAINTS.PASSWORD.MIN_LENGTH) {
     const strengthScore = getStrengthScore();
 
-     
     if (strengthScore <= 40) {
       state.status = 'danger';
       state.notice = STRENGTH_NOTICE.DANGER;
-
-       
     } else if (strengthScore > 40 && strengthScore <= 70) {
       state.status = 'warning';
       state.notice = STRENGTH_NOTICE.WARNING;
-
-       
     } else if (strengthScore > 70) {
       state.status = 'success';
       state.notice = STRENGTH_NOTICE.SUCCESS;
