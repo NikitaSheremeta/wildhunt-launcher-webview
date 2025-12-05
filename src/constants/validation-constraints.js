@@ -1,9 +1,12 @@
 // LOGIN
-export const LOGIN_MIN_LENGTH = 4;
-export const LOGIN_MAX_LENGTH = 24;
+export const LOGIN_MIN_LENGTH = 2;
+export const LOGIN_MAX_LENGTH = 32;
+
+// EMAIL
+export const EMAIL_MAX_LENGTH = 255;
 
 // LOGIN_OR_EMAIL
-export const LOGIN_OR_EMAIL_MAX_LENGTH = 48;
+export const LOGIN_OR_EMAIL_MAX_LENGTH = 255;
 
 // PASSWORD
 export const PASSWORD_MIN_LENGTH = 4;
@@ -30,6 +33,9 @@ export const VALIDATION_CONSTRAINTS = {
   LOGIN: {
     MIN_LENGTH: LOGIN_MIN_LENGTH,
     MAX_LENGTH: LOGIN_MAX_LENGTH,
+  },
+  EMAIL: {
+    MAX_LENGTH: EMAIL_MAX_LENGTH,
   },
   LOGIN_OR_EMAIL: {
     MIN_LENGTH: LOGIN_MIN_LENGTH,

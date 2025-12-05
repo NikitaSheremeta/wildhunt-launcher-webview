@@ -40,7 +40,7 @@
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive } from 'vue';
 import { required, maxLength, minLength, allowedCharacters } from '@/utils/validators';
 import { VALIDATION_MESSAGES } from '@/constants/validation-messages';
 import { VALIDATION_CONSTRAINTS } from '@/constants/validation-constraints';
@@ -48,7 +48,6 @@ import { useFieldsValidation } from '@/hooks/useFieldsValidation';
 import { useFormValidator } from '@/hooks/useFormValidator';
 import { debounce } from '@/utils/debounce';
 import { HTTP_STATUS } from '@/constants/status-codes';
-
 import AppInput from '@/components/AppInput/AppInput.vue';
 import AppButton from '@/components/AppButton/AppButton.vue';
 
