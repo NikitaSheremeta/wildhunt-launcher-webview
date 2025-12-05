@@ -13,14 +13,11 @@
         :maxLength="VALIDATION_CONSTRAINTS.LOGIN_OR_EMAIL.MAX_LENGTH"
       />
 
-      <AppInput
-        id="password"
-        name="password"
-        type="password"
-        placeholder="Пароль"
+      <AppPassword
         v-model="data.password"
+        placeholder="Пароль"
         :validation="fieldsValidation.password"
-        :maxLength="VALIDATION_CONSTRAINTS.PASSWORD.MAX_LENGTH"
+        disable-success-icon
       />
     </div>
 
@@ -53,6 +50,7 @@ import { useFormValidator } from '@/hooks/useFormValidator';
 import { debounce } from '@/utils/debounce';
 import { HTTP_STATUS } from '@/constants/status-codes';
 import AppInput from '@/components/AppInput/AppInput.vue';
+import AppPassword from '@/components/AppPassword/AppPassword.vue';
 import AppButton from '@/components/AppButton/AppButton.vue';
 import AppLink from '@/components/AppLink/AppLink.vue';
 
