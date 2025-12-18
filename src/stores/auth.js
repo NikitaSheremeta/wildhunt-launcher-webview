@@ -16,15 +16,12 @@ export const useAuthStore = defineStore('auth', () => {
   const isSignUpLoading = ref(false);
   const isLogInLoading = ref(false);
   const isLogOutLoading = ref(false);
+  const isResetPasswordLoading = ref(false);
 
   const setIsAuthenticated = (value) => {
-    console.log('setIsAuthenticated', value);
-
     isAuthenticated.value = value;
   };
 
-  // @TODO: Re-implement this method as a refresh token function.
-  // @TODO: Implement a real checkAuth route.
   const checkAuth = async () => {
     try {
       isCheckingAuthLoading.value = true;
@@ -123,16 +120,39 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
+  const resetPassword = async (data) => {
+    try {
+      isResetPasswordLoading.value = true;
+
+      const response = await $api.post(AUTH_ENDPOINTS.RESET_PASSWORD, data);
+
+      if (response.status === HTTP_STATUS.OK) {
+        notificationsStore.show(response.data.message, ALLOWED_THEMES.SUCCESS);
+      }
+
+      return response;
+    } catch (error) {
+      notificationsStore.show(
+        buildResponseErrorMessage({ endpoint: AUTH_ENDPOINTS.RESET_PASSWORD, error }),
+        ALLOWED_THEMES.ERROR,
+      );
+    } finally {
+      isResetPasswordLoading.value = false;
+    }
+  };
+
   return {
     isAuthenticated,
     isCheckingAuthLoading,
     isSignUpLoading,
     isLogInLoading,
     isLogOutLoading,
+    isResetPasswordLoading,
     setIsAuthenticated,
     checkAuth,
     signUp,
     logIn,
     logOut,
+    resetPassword,
   };
 });

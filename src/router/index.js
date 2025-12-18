@@ -25,6 +25,14 @@ const routes = [
     },
   },
   {
+    path: '/reset-password',
+    name: 'Reset Password',
+    component: () => import('@/views/ResetPassword/ResetPassword.vue'),
+    meta: {
+      guestOnly: true,
+    },
+  },
+  {
     path: '/map',
     name: 'Map',
     component: () => import('@/views/ServerMap/ServerMap.vue'),

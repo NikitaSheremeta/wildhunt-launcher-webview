@@ -26,7 +26,7 @@
     </div>
 
     <AppLink
-      href="/forgot-password"
+      href="/reset-password"
       color="secondary"
       label="Забыли пароль или не можете войти"
       iconLeft="question"

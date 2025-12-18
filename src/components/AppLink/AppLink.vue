@@ -124,7 +124,6 @@ const componentAttrs = computed(() => {
 
   return {
     to: props.href || '/',
-    target: props.target || '_self',
   };
 });
 
