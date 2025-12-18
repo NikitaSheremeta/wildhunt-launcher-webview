@@ -15,22 +15,6 @@ function asTrimmedString(value) {
   return stringified.trim();
 }
 
-function normalizeHttpMethod(method) {
-  const value = asTrimmedString(method);
-
-  return value ? value.toUpperCase() : '';
-}
-
-function extractMethod(error) {
-  if (!error) {
-    return '';
-  }
-
-  const methodFromConfig = normalizeHttpMethod(error.config?.method || error.response?.config?.method);
-
-  return methodFromConfig;
-}
-
 function extractErrorMessage(error) {
   if (!error) {
     return '';
@@ -51,7 +35,7 @@ function extractErrorMessage(error) {
   return asTrimmedString(error.message);
 }
 
-export function buildResponseErrorMessage({ endpoint, error, method, fallbackMessage } = {}) {
+export function buildResponseErrorMessage({ error, fallbackMessage } = {}) {
   const preparedMessage = extractErrorMessage(error) || fallbackMessage;
 
   return preparedMessage;

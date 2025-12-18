@@ -18,6 +18,8 @@ export const useAuthStore = defineStore('auth', () => {
   const isLogOutLoading = ref(false);
 
   const setIsAuthenticated = (value) => {
+    console.log('setIsAuthenticated', value);
+
     isAuthenticated.value = value;
   };
 

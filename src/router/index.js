@@ -7,19 +7,22 @@ const routes = [
     path: '/',
     name: 'Home Page',
     component: () => import('@/views/HomePage/HomePage.vue'),
-    meta: {
-      requiresAuth: true,
-    },
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import('@/views/LogIn/LogIn.vue'),
+    meta: {
+      guestOnly: true,
+    },
   },
   {
     path: '/signup',
     name: 'Signup',
     component: () => import('@/views/SignUp/SignUp.vue'),
+    meta: {
+      guestOnly: true,
+    },
   },
 ];
 
@@ -29,38 +32,42 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore();
   const token = localStorage.getItem('token');
 
-  const authStore = useAuthStore();
+  if (to.meta.guestOnly) {
+    if (token) {
+      authStore.setIsAuthenticated(true);
+
+      return next({ path: '/', replace: true });
+    }
+
+    authStore.setIsAuthenticated(false);
+    return next();
+  }
 
   if (to.meta.requiresAuth) {
     if (!token) {
-      // TODO: It shouldn't be called through the refresh token route, implement a real checkAuth route.
       const response = await authStore.checkAuth();
 
       if (response.status === HTTP_STATUS.UNAUTHORIZED) {
+        authStore.setIsAuthenticated(false);
+
         return next({ path: '/login', replace: true });
       }
+
+      authStore.setIsAuthenticated(response.status === HTTP_STATUS.OK);
+
+      return next();
     }
 
-    if (token) {
-      authStore.setIsAuthenticated(true);
-    }
+    authStore.setIsAuthenticated(true);
+
+    return next();
   }
 
-  if (to.path === '/login' || to.path === '/signup') {
-    if (!token) {
-      // TODO: It shouldn't be called through the refresh token route, implement a real checkAuth route.
-      const response = await authStore.checkAuth();
-
-      if (response.status === HTTP_STATUS.OK) {
-        return next({ path: '/', replace: true });
-      }
-    }
-
-    if (token) {
-      return next({ path: '/', replace: true });
-    }
+  if (token) {
+    authStore.setIsAuthenticated(true);
   }
 
   return next();
