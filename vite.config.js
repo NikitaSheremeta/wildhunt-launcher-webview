@@ -16,8 +16,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/auth': {
-        target: 'http://localhost:8443',
+        target: 'https://auth.minecraft-wildhunt.com',
         changeOrigin: true,
+        secure: process.env.VITE_APP_ENV === 'prod',
         rewrite: (path) => path.replace(/^\/auth/, '/api/v1/auth'),      
       },
     },

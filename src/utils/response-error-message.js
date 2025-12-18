@@ -52,20 +52,7 @@ function extractErrorMessage(error) {
 }
 
 export function buildResponseErrorMessage({ endpoint, error, method, fallbackMessage } = {}) {
-  const resolvedMethod = normalizeHttpMethod(method) || extractMethod(error);
-
-  const prefixParts = [];
-
-  if (resolvedMethod) {
-    prefixParts.push(resolvedMethod);
-  }
-
-  if (endpoint) {
-    prefixParts.push(String(endpoint));
-  }
-
-  const prefix = prefixParts.length ? `[${prefixParts.join(' ')}]` : '';
   const preparedMessage = extractErrorMessage(error) || fallbackMessage;
 
-  return prefix ? `${prefix}: ${preparedMessage}` : preparedMessage;
+  return preparedMessage;
 }

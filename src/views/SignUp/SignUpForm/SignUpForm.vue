@@ -133,7 +133,11 @@ const onFormSubmit = debounce(async () => {
     return;
   }
 
-  const response = await authStore.signUp(data);
+  const response = await authStore.signUp({
+    userName: data.username,
+    email: data.email,
+    password: data.password,
+  });
 
   if (response.status === HTTP_STATUS.OK) {
     router.push('/');

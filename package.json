@@ -7,9 +7,9 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "VITE_APP_ENV=dev vite",
     "build": "vite build",
-    "preview": "vite preview",
+    "preview": "VITE_APP_ENV=prod vite preview",
     "lint": "eslint . --fix",
     "format": "prettier --write src/"
   },
