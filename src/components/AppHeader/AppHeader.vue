@@ -2,7 +2,14 @@
   <header
     class="w-full py-4 flex items-center justify-between bg-gradient-to-b from-[var(--color-gray-900)] to-[rgba(255,255,255,0)]"
   >
-    <img class="w-[6.25rem] select-none" :src="logoImage" alt="Minecraft WildHunt" decoding="async" loading="lazy" />
+    <img
+      class="w-[6.25rem] select-none"
+      :src="logoImage"
+      alt="Minecraft WildHunt"
+      decoding="async"
+      loading="lazy"
+      @click="router.push('/')"
+    />
 
     <ul v-if="!isAuthenticated" class="flex gap-6">
       <li v-for="link in NAVIGATION_LINKS" :key="link.path">

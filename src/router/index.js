@@ -24,6 +24,11 @@ const routes = [
       guestOnly: true,
     },
   },
+  {
+    path: '/map',
+    name: 'Map',
+    component: () => import('@/views/ServerMap/ServerMap.vue'),
+  },
 ];
 
 const router = createRouter({
