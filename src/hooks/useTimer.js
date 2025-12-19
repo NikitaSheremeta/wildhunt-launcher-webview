@@ -8,20 +8,17 @@ export function useTimer() {
   const data = reactive({
     active: false,
     time: '00:00',
-    createTimer: (duration) => {
-      createTimer(duration);
+    createTimer: (durationSeconds) => {
+      createTimer(durationSeconds);
     },
     checkTimer: () => {
       checkTimer();
     },
   });
 
-  const storageTimestamp = localStorage.getItem('timerTimestamp');
-  const storageDuration = localStorage.getItem('timerDuration');
-
-  const updateDataTime = (duration) => {
-    let minutes = Math.floor(duration / SIXTY_SECONDS);
-    let seconds = Math.floor(duration % SIXTY_SECONDS);
+  const updateDataTime = (durationSeconds) => {
+    let minutes = Math.floor(durationSeconds / SIXTY_SECONDS);
+    let seconds = Math.floor(durationSeconds % SIXTY_SECONDS);
 
     minutes = minutes < TEN_SECONDS ? '0' + minutes : minutes;
     seconds = seconds < TEN_SECONDS ? '0' + seconds : seconds;
@@ -36,20 +33,20 @@ export function useTimer() {
     data.active = false;
   };
 
-  const timerHandle = (duration) => {
-    if (duration > 0) {
+  const timerHandle = (durationSeconds) => {
+    if (durationSeconds > 0) {
       data.active = true;
 
-      updateDataTime(duration);
+      updateDataTime(durationSeconds);
 
-      --duration;
+      --durationSeconds;
 
       const interval = setInterval(() => {
-        updateDataTime(duration);
+        updateDataTime(durationSeconds);
 
-        --duration;
+        --durationSeconds;
 
-        if (duration < 0) {
+        if (durationSeconds < 0) {
           destroyTimer();
 
           clearInterval(interval);
@@ -57,21 +54,29 @@ export function useTimer() {
       }, ONE_THOUSAND_MILLISECONDS);
     }
 
-    if (duration < 0) {
+    if (durationSeconds < 0) {
       destroyTimer();
     }
   };
 
-  const createTimer = (duration) => {
+  const createTimer = (durationSeconds) => {
     const currentTimestamp = Math.floor(Date.now() / ONE_THOUSAND_MILLISECONDS);
 
     localStorage.setItem('timerTimestamp', currentTimestamp.toString());
-    localStorage.setItem('timerDuration', duration);
+    localStorage.setItem('timerDuration', durationSeconds.toString());
 
-    timerHandle(duration);
+    timerHandle(durationSeconds);
   };
 
   const checkTimer = () => {
+    const storageTimestamp = Number(localStorage.getItem('timerTimestamp'));
+    const storageDuration = Number(localStorage.getItem('timerDuration'));
+
+    if (!storageTimestamp || !storageDuration) {
+      destroyTimer();
+      return;
+    }
+
     const currentTimestamp = Math.floor(Date.now() / ONE_THOUSAND_MILLISECONDS);
 
     const timeDifference = storageDuration - (currentTimestamp - storageTimestamp);

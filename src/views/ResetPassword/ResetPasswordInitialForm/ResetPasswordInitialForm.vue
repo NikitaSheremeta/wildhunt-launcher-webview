@@ -81,8 +81,8 @@ const onFormSubmit = debounce(async () => {
 
   const response = await authStore.resetPassword({ ...data });
 
-  if (response.status === HTTP_STATUS.OK) {
-    emit('success');
-  }
+  // if (response.status === HTTP_STATUS.OK) {
+  emit('success');
+  // }
 });
 </script>
