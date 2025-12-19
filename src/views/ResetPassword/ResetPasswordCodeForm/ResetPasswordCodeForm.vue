@@ -9,11 +9,10 @@
 
     <AppLink
       v-if="!timer.active"
-      color="secondary"
+      color="primary"
       label="Отправить код еще раз"
       iconLeft="redo"
       small
-      underline
       class="mt-4"
       @click.prevent="onClickResendLink"
     />
@@ -23,20 +22,28 @@
 </template>
 
 <script setup>
+  import { useAuthStore } from '@/stores/auth';
 import { computed, onMounted } from 'vue';
 import { useTimer } from '@/hooks/useTimer';
-
+import { debounce } from '@/utils/debounce';
 import AppCode from '@/components/AppCode/AppCode.vue';
 import AppLink from '@/components/AppLink/AppLink.vue';
 
 const FIFTEEN_MINUTES_IN_SECONDS = 15 * 60;
 
+const authStore = useAuthStore();
+
 const timer = useTimer();
 const notice = computed(() => 'Отправить код повторно можно через ' + timer.time);
 
-const onClickResendLink = () => {
-  timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
-};
+const onClickResendLink = debounce(async () => {
+  const response = await authStore.resetPassword(); // user email
+
+    // if (response.status === HTTP_STATUS.OK) {}
+    // timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
+    timer.createTimer(10);
+    // }
+});
 
 onMounted(() => {
   timer.checkTimer();

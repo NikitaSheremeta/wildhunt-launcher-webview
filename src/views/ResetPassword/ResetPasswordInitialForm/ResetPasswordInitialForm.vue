@@ -43,6 +43,7 @@ import { VALIDATION_CONSTRAINTS } from '@/constants/validation-constraints';
 
 import { useFieldsValidation } from '@/hooks/useFieldsValidation';
 import { useFormValidator } from '@/hooks/useFormValidator';
+import { useTimer } from '@/hooks/useTimer';
 
 import { debounce } from '@/utils/debounce';
 import { HTTP_STATUS } from '@/constants/status-codes';
@@ -50,6 +51,8 @@ import { HTTP_STATUS } from '@/constants/status-codes';
 import AppInput from '@/components/AppInput/AppInput.vue';
 import AppButton from '@/components/AppButton/AppButton.vue';
 import AppLink from '@/components/AppLink/AppLink.vue';
+
+const FIFTEEN_MINUTES_IN_SECONDS = 15 * 60;
 
 const emit = defineEmits(['success']);
 
@@ -72,6 +75,8 @@ const fieldsValidation = useFieldsValidation(rules, data);
 
 const formValidator = useFormValidator(fieldsValidation);
 
+const timer = useTimer();
+
 const onFormSubmit = debounce(async () => {
   const isValid = formValidator.validate();
 
@@ -82,7 +87,10 @@ const onFormSubmit = debounce(async () => {
   const response = await authStore.resetPassword({ ...data });
 
   // if (response.status === HTTP_STATUS.OK) {
-  emit('success');
+    // timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
+    timer.createTimer(10);
+
+    emit('success');
   // }
 });
 </script>

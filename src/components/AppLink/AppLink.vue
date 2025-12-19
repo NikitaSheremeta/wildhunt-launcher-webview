@@ -1,7 +1,7 @@
 <template>
   <component
     :is="componentTag"
-    v-bind="componentAttrs"
+    v-bind="mergedAttrs"
     :class="rootClasses"
     :aria-current="active ? 'page' : undefined"
   >
@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, useAttrs } from 'vue';
 import { RouterLink } from 'vue-router';
 
 import AppIcon from '@/components/AppIcon/AppIcon.vue';
@@ -102,6 +102,10 @@ const componentTag = computed(() => {
     return 'span';
   }
 
+  if (!props.href) {
+    return 'button';
+  }
+
   return isExternal.value ? 'a' : RouterLink;
 });
 
@@ -114,18 +118,30 @@ const componentAttrs = computed(() => {
     };
   }
 
+  if (!props.href) {
+    return {
+      type: 'button',
+    };
+  }
+
   if (isExternal.value) {
     return {
-      href: props.href || '#',
+      href: props.href,
       target: props.target || '_blank',
       rel: props.target === '_blank' ? 'noopener noreferrer' : undefined,
     };
   }
 
   return {
-    to: props.href || '/',
+    to: props.href,
   };
 });
+
+const attrs = useAttrs();
+const mergedAttrs = computed(() => ({
+  ...attrs,
+  ...componentAttrs.value,
+}));
 
 const variant = computed(() => VARIANT_STYLES[props.color] || VARIANT_STYLES.primary);
 
@@ -134,6 +150,7 @@ const rootClasses = computed(() => [
   props.small ? 'text-sm' : 'text-base',
   props.underline ? 'underline underline-offset-4' : '',
   props.disabled ? 'cursor-default text-gray-700 opacity-60' : 'cursor-pointer',
+  componentTag.value === 'button' ? 'bg-transparent border-0 p-0 text-left' : '',
   !props.disabled ? variant.value.text : '',
 ]);
 
