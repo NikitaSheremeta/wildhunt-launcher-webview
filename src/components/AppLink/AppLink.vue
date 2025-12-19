@@ -1,10 +1,5 @@
 <template>
-  <component
-    :is="componentTag"
-    v-bind="mergedAttrs"
-    :class="rootClasses"
-    :aria-current="active ? 'page' : undefined"
-  >
+  <component :is="componentTag" v-bind="mergedAttrs" :class="rootClasses" :aria-current="active ? 'page' : undefined">
     <AppIcon
       v-if="iconLeft"
       :icon="iconLeft"

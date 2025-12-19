@@ -87,10 +87,10 @@ const onFormSubmit = debounce(async () => {
   const response = await authStore.resetPassword({ ...data });
 
   // if (response.status === HTTP_STATUS.OK) {
-    // timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
-    timer.createTimer(10);
+  // timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
+  timer.createTimer(10);
 
-    emit('success');
+  emit('success');
   // }
 });
 </script>

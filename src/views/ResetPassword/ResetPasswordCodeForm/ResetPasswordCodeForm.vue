@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-  import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth';
 import { computed, onMounted } from 'vue';
 import { useTimer } from '@/hooks/useTimer';
 import { debounce } from '@/utils/debounce';
@@ -39,10 +39,10 @@ const notice = computed(() => 'Отправить код повторно мож
 const onClickResendLink = debounce(async () => {
   const response = await authStore.resetPassword(); // user email
 
-    // if (response.status === HTTP_STATUS.OK) {}
-    // timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
-    timer.createTimer(10);
-    // }
+  // if (response.status === HTTP_STATUS.OK) {}
+  // timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
+  timer.createTimer(10);
+  // }
 });
 
 onMounted(() => {
