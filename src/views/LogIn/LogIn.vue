@@ -95,7 +95,7 @@ const onFormSubmit = debounce(async () => {
   const response = await authStore.logIn(data);
 
   if (response.status === HTTP_STATUS.OK) {
-    router.push('/');
+    router.push('/home');
   }
 });
 </script>

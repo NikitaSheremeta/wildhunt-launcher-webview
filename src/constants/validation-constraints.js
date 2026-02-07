@@ -9,7 +9,7 @@ export const EMAIL_MAX_LENGTH = 255;
 export const LOGIN_OR_EMAIL_MAX_LENGTH = 255;
 
 // PASSWORD
-export const PASSWORD_MIN_LENGTH = 4;
+export const PASSWORD_MIN_LENGTH = 8;
 export const PASSWORD_MAX_LENGTH = 24;
 
 // CODE

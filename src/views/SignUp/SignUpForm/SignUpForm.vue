@@ -140,7 +140,7 @@ const onFormSubmit = debounce(async () => {
   });
 
   if (response.status === HTTP_STATUS.OK) {
-    router.push('/');
+    router.push('/home');
   }
 });
 </script>

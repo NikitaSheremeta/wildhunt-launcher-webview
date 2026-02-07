@@ -69,7 +69,7 @@ const onLogOutButtonClick = debounce(async () => {
   const response = await authStore.logOut();
 
   if (response.status === HTTP_STATUS.OK) {
-    router.push('/');
+    router.push('/login');
   }
 });
 </script>

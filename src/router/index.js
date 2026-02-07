@@ -5,8 +5,16 @@ import { HTTP_STATUS } from '@/constants/status-codes';
 const routes = [
   {
     path: '/',
+    name: 'Root',
+    redirect: '/login',
+  },
+  {
+    path: '/home',
     name: 'Home Page',
     component: () => import('@/views/HomePage/HomePage.vue'),
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/login',
@@ -52,7 +60,7 @@ router.beforeEach(async (to, from, next) => {
     if (token) {
       authStore.setIsAuthenticated(true);
 
-      return next({ path: '/', replace: true });
+      return next({ path: '/home', replace: true });
     }
 
     authStore.setIsAuthenticated(false);
