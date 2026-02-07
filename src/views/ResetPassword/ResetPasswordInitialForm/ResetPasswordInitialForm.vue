@@ -34,7 +34,7 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
-import { ref, reactive } from 'vue';
+import { onMounted, ref, reactive } from 'vue';
 
 import { required, email } from '@/utils/validators';
 
@@ -53,6 +53,7 @@ import AppButton from '@/components/AppButton/AppButton.vue';
 import AppLink from '@/components/AppLink/AppLink.vue';
 
 const FIFTEEN_MINUTES_IN_SECONDS = 15 * 60;
+const RESET_PASSWORD_EMAIL_STORAGE_KEY = 'resetPassword.email';
 
 const emit = defineEmits(['success']);
 
@@ -62,6 +63,16 @@ const { isResetPasswordLoading } = storeToRefs(authStore);
 
 const data = reactive({
   email: '',
+});
+
+onMounted(() => {
+  try {
+    const savedEmail = localStorage.getItem(RESET_PASSWORD_EMAIL_STORAGE_KEY);
+
+    if (savedEmail && !data.email) {
+      data.email = savedEmail;
+    }
+  } catch {}
 });
 
 const rules = ref({
@@ -78,6 +89,10 @@ const formValidator = useFormValidator(fieldsValidation);
 const timer = useTimer();
 
 const onFormSubmit = debounce(async () => {
+  try {
+    localStorage.setItem(RESET_PASSWORD_EMAIL_STORAGE_KEY, (data.email ?? '').trim());
+  } catch {}
+
   const isValid = formValidator.validate();
 
   if (!isValid) {
@@ -86,11 +101,10 @@ const onFormSubmit = debounce(async () => {
 
   const response = await authStore.resetPassword({ ...data });
 
-  // if (response.status === HTTP_STATUS.OK) {
-  // timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
-  timer.createTimer(10);
+  if (response.status === HTTP_STATUS.OK) {
+    timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
 
-  emit('success');
-  // }
+    emit('success');
+  }
 });
 </script>

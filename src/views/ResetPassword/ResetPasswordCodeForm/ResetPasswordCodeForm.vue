@@ -23,29 +23,52 @@
 
 <script setup>
 import { useAuthStore } from '@/stores/auth';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useTimer } from '@/hooks/useTimer';
 import { debounce } from '@/utils/debounce';
+import { HTTP_STATUS } from '@/constants/status-codes';
 import AppCode from '@/components/AppCode/AppCode.vue';
 import AppLink from '@/components/AppLink/AppLink.vue';
 
 const FIFTEEN_MINUTES_IN_SECONDS = 15 * 60;
+const RESET_PASSWORD_EMAIL_STORAGE_KEY = 'resetPassword.email';
+
+const emit = defineEmits(['success', 'back']);
 
 const authStore = useAuthStore();
 
 const timer = useTimer();
 const notice = computed(() => 'Отправить код повторно можно через ' + timer.time);
 
-const onClickResendLink = debounce(async () => {
-  const response = await authStore.resetPassword(); // user email
+const email = ref('');
 
-  // if (response.status === HTTP_STATUS.OK) {}
-  // timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
-  timer.createTimer(10);
-  // }
+const onClickResendLink = debounce(async () => {
+  if (!email.value) {
+    emit('back');
+
+    return;
+  }
+
+  const response = await authStore.resetPassword({ email: email.value });
+
+  if (response.status === HTTP_STATUS.OK) {
+    timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
+  }
 });
 
 onMounted(() => {
+  try {
+    email.value = (localStorage.getItem(RESET_PASSWORD_EMAIL_STORAGE_KEY) || '').trim();
+  } catch {
+    email.value = '';
+  }
+
+  if (!email.value) {
+    emit('back');
+
+    return;
+  }
+
   timer.checkTimer();
 });
 </script>
