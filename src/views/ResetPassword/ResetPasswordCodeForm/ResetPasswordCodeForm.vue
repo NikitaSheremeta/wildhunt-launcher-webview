@@ -4,7 +4,7 @@
     <p class="text-sm text-gray-600 mt-2">Укажите код, который был отправлен на вашу электронную почту</p>
 
     <div class="flex flex-col gap-4 mt-6">
-      <AppCode />
+      <AppCode v-model="code" :disabled="isResetCodeLoading" />
     </div>
 
     <AppLink
@@ -23,7 +23,8 @@
 
 <script setup>
 import { useAuthStore } from '@/stores/auth';
-import { computed, onMounted, ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useTimer } from '@/hooks/useTimer';
 import { debounce } from '@/utils/debounce';
 import { HTTP_STATUS } from '@/constants/status-codes';
@@ -36,11 +37,17 @@ const RESET_PASSWORD_EMAIL_STORAGE_KEY = 'resetPassword.email';
 const emit = defineEmits(['success', 'back']);
 
 const authStore = useAuthStore();
+const { isResetCodeLoading } = storeToRefs(authStore);
 
 const timer = useTimer();
 const notice = computed(() => 'Отправить код повторно можно через ' + timer.time);
 
 const email = ref('');
+const code = ref([]);
+const lastSubmittedCode = ref('');
+
+const codeString = computed(() => (code.value || []).join(''));
+const isCodeComplete = computed(() => (code.value || []).length > 0 && (code.value || []).every((d) => d !== ''));
 
 const onClickResendLink = debounce(async () => {
   if (!email.value) {
@@ -70,5 +77,31 @@ onMounted(() => {
   }
 
   timer.checkTimer();
+});
+
+watch([isCodeComplete, codeString], async ([complete, currentCode]) => {
+  if (!complete) {
+    lastSubmittedCode.value = '';
+
+    return;
+  }
+
+  if (!email.value) {
+    emit('back');
+
+    return;
+  }
+
+  if (!currentCode || currentCode === lastSubmittedCode.value) {
+    return;
+  }
+
+  lastSubmittedCode.value = currentCode;
+
+  const response = await authStore.resetCode({ code: currentCode });
+
+  if (response.status === HTTP_STATUS.OK) {
+    emit('success');
+  }
 });
 </script>

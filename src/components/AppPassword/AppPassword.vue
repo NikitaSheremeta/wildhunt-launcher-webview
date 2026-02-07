@@ -53,6 +53,10 @@ import { REGULAR_EXPRESSIONS } from '@/constants/regular-expressions.js';
 import { VALIDATION_CONSTRAINTS } from '@/constants/validation-constraints.js';
 
 const props = defineProps({
+  modelValue: {
+    type: String,
+    default: '',
+  },
   create: {
     type: Boolean,
     default: false,
@@ -64,6 +68,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false,
+  },
+  maxLength: {
+    type: Number,
+    default: null,
   },
   validation: {
     type: [Object, null],

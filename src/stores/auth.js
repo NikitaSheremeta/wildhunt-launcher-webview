@@ -17,6 +17,7 @@ export const useAuthStore = defineStore('auth', () => {
   const isLogInLoading = ref(false);
   const isLogOutLoading = ref(false);
   const isResetPasswordLoading = ref(false);
+  const isResetCodeLoading = ref(false);
 
   const setIsAuthenticated = (value) => {
     isAuthenticated.value = value;
@@ -141,6 +142,31 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
+  const resetCode = async (data) => {
+    try {
+      isResetCodeLoading.value = true;
+
+      const endpoint = `${AUTH_ENDPOINTS.RESET_CODE}/${data.code}`;
+
+      const response = await $api.get(endpoint);
+
+      if (response.status === HTTP_STATUS.OK) {
+        notificationsStore.show(response.data.message, ALLOWED_THEMES.SUCCESS);
+      }
+
+      return response;
+    } catch (error) {
+      notificationsStore.show(
+        buildResponseErrorMessage({ endpoint: AUTH_ENDPOINTS.RESET_CODE, error }),
+        ALLOWED_THEMES.ERROR,
+      );
+
+      return error.response;
+    } finally {
+      isResetCodeLoading.value = false;
+    }
+  };
+
   return {
     isAuthenticated,
     isCheckingAuthLoading,
@@ -148,11 +174,13 @@ export const useAuthStore = defineStore('auth', () => {
     isLogInLoading,
     isLogOutLoading,
     isResetPasswordLoading,
+    isResetCodeLoading,
     setIsAuthenticated,
     checkAuth,
     signUp,
     logIn,
     logOut,
     resetPassword,
+    resetCode,
   };
 });
