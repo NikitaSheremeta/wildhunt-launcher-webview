@@ -5,6 +5,7 @@ export const AUTH_REFRESH = '/auth/refresh';
 export const AUTH_LOGOUT = '/auth/logout';
 export const AUTH_RESET_PASSWORD = '/auth/forgot-password';
 export const AUTH_RESET_CODE = '/auth/reset';
+export const AUTH_NEW_PASSWORD = '/auth/new-password';
 
 export const AUTH_ENDPOINTS = {
   LOGIN: AUTH_LOGIN,
@@ -13,4 +14,5 @@ export const AUTH_ENDPOINTS = {
   LOGOUT: AUTH_LOGOUT,
   RESET_PASSWORD: AUTH_RESET_PASSWORD,
   RESET_CODE: AUTH_RESET_CODE,
+  NEW_PASSWORD: AUTH_NEW_PASSWORD,
 };

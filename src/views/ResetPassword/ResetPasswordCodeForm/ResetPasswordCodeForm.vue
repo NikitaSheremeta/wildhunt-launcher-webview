@@ -33,6 +33,7 @@ import AppLink from '@/components/AppLink/AppLink.vue';
 
 const FIFTEEN_MINUTES_IN_SECONDS = 15 * 60;
 const RESET_PASSWORD_EMAIL_STORAGE_KEY = 'resetPassword.email';
+const RESET_PASSWORD_CODE_STORAGE_KEY = 'resetPassword.code';
 
 const emit = defineEmits(['success', 'back']);
 
@@ -101,6 +102,10 @@ watch([isCodeComplete, codeString], async ([complete, currentCode]) => {
   const response = await authStore.resetCode({ code: currentCode });
 
   if (response.status === HTTP_STATUS.OK) {
+    try {
+      localStorage.setItem(RESET_PASSWORD_CODE_STORAGE_KEY, currentCode);
+    } catch {}
+
     emit('success');
   }
 });

@@ -35,19 +35,14 @@
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref, reactive } from 'vue';
-
 import { required, email } from '@/utils/validators';
-
 import { VALIDATION_MESSAGES } from '@/constants/validation-messages';
 import { VALIDATION_CONSTRAINTS } from '@/constants/validation-constraints';
-
 import { useFieldsValidation } from '@/hooks/useFieldsValidation';
 import { useFormValidator } from '@/hooks/useFormValidator';
 import { useTimer } from '@/hooks/useTimer';
-
 import { debounce } from '@/utils/debounce';
 import { HTTP_STATUS } from '@/constants/status-codes';
-
 import AppInput from '@/components/AppInput/AppInput.vue';
 import AppButton from '@/components/AppButton/AppButton.vue';
 import AppLink from '@/components/AppLink/AppLink.vue';
@@ -72,7 +67,9 @@ onMounted(() => {
     if (savedEmail && !data.email) {
       data.email = savedEmail;
     }
-  } catch {}
+  } catch {
+    // ignore storage access errors
+  }
 });
 
 const rules = ref({
@@ -91,7 +88,9 @@ const timer = useTimer();
 const onFormSubmit = debounce(async () => {
   try {
     localStorage.setItem(RESET_PASSWORD_EMAIL_STORAGE_KEY, (data.email ?? '').trim());
-  } catch {}
+  } catch {
+    // ignore storage access errors
+  }
 
   const isValid = formValidator.validate();
 
@@ -99,9 +98,9 @@ const onFormSubmit = debounce(async () => {
     return;
   }
 
-  const response = await authStore.resetPassword({ ...data });
+  const response = await authStore.resetPassword({ email: data.email });
 
-  if (response.status === HTTP_STATUS.OK) {
+  if (response?.status === HTTP_STATUS.OK) {
     timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
 
     emit('success');

@@ -18,6 +18,7 @@ export const useAuthStore = defineStore('auth', () => {
   const isLogOutLoading = ref(false);
   const isResetPasswordLoading = ref(false);
   const isResetCodeLoading = ref(false);
+  const isNewPasswordLoading = ref(false);
 
   const setIsAuthenticated = (value) => {
     isAuthenticated.value = value;
@@ -137,6 +138,8 @@ export const useAuthStore = defineStore('auth', () => {
         buildResponseErrorMessage({ endpoint: AUTH_ENDPOINTS.RESET_PASSWORD, error }),
         ALLOWED_THEMES.ERROR,
       );
+
+      return error.response;
     } finally {
       isResetPasswordLoading.value = false;
     }
@@ -167,6 +170,29 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
+  const newPassword = async (data) => {
+    try {
+      isNewPasswordLoading.value = true;
+
+      const response = await $api.post(AUTH_ENDPOINTS.NEW_PASSWORD, data);
+
+      if (response.status === HTTP_STATUS.OK) {
+        notificationsStore.show('Пароль успешно изменен', ALLOWED_THEMES.SUCCESS);
+      }
+
+      return response;
+    } catch (error) {
+      notificationsStore.show(
+        buildResponseErrorMessage({ endpoint: AUTH_ENDPOINTS.NEW_PASSWORD, error }),
+        ALLOWED_THEMES.ERROR,
+      );
+
+      return error.response;
+    } finally {
+      isNewPasswordLoading.value = false;
+    }
+  };
+
   return {
     isAuthenticated,
     isCheckingAuthLoading,
@@ -175,6 +201,7 @@ export const useAuthStore = defineStore('auth', () => {
     isLogOutLoading,
     isResetPasswordLoading,
     isResetCodeLoading,
+    isNewPasswordLoading,
     setIsAuthenticated,
     checkAuth,
     signUp,
@@ -182,5 +209,6 @@ export const useAuthStore = defineStore('auth', () => {
     logOut,
     resetPassword,
     resetCode,
+    newPassword,
   };
 });

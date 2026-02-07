@@ -3,7 +3,7 @@
     <div :key="step" class="flex flex-col mt-40 w-80 select-none">
       <ResetPasswordInitialForm v-if="step === 'initial'" @success="goTo('code')" />
       <ResetPasswordCodeForm v-else-if="step === 'code'" @success="goTo('final')" @back="goTo('initial')" />
-      <ResetPasswordFinalForn v-else-if="step === 'final'" />
+      <ResetPasswordFinalForn v-else-if="step === 'final'" @back="goTo('code')" />
     </div>
   </Transition>
 </template>
