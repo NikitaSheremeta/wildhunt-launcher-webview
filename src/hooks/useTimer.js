@@ -16,6 +16,31 @@ export function useTimer() {
     },
   });
 
+  const safeGet = (key) => {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  };
+
+  const safeSet = (key, value) => {
+    try {
+      localStorage.setItem(key, value);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const safeRemove = (key) => {
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      // ignore
+    }
+  };
+
   const updateDataTime = (durationSeconds) => {
     let minutes = Math.floor(durationSeconds / SIXTY_SECONDS);
     let seconds = Math.floor(durationSeconds % SIXTY_SECONDS);
@@ -27,8 +52,8 @@ export function useTimer() {
   };
 
   const destroyTimer = () => {
-    localStorage.removeItem('timerTimestamp');
-    localStorage.removeItem('timerDuration');
+    safeRemove('timerTimestamp');
+    safeRemove('timerDuration');
 
     data.active = false;
   };
@@ -62,15 +87,17 @@ export function useTimer() {
   const createTimer = (durationSeconds) => {
     const currentTimestamp = Math.floor(Date.now() / ONE_THOUSAND_MILLISECONDS);
 
-    localStorage.setItem('timerTimestamp', currentTimestamp.toString());
-    localStorage.setItem('timerDuration', durationSeconds.toString());
+    // localStorage may be unavailable in embedded WebView (file:/, jar:/) origins.
+    // Timer should still work in-memory even if persistence fails.
+    safeSet('timerTimestamp', currentTimestamp.toString());
+    safeSet('timerDuration', durationSeconds.toString());
 
     timerHandle(durationSeconds);
   };
 
   const checkTimer = () => {
-    const storageTimestamp = Number(localStorage.getItem('timerTimestamp'));
-    const storageDuration = Number(localStorage.getItem('timerDuration'));
+    const storageTimestamp = Number(safeGet('timerTimestamp'));
+    const storageDuration = Number(safeGet('timerDuration'));
 
     if (!storageTimestamp || !storageDuration) {
       destroyTimer();

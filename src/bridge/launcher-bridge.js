@@ -99,7 +99,7 @@ function _emitEvent(name, payload) {
       cb(payload);
     } catch (e) {
       // Avoid breaking the bridge on user-land handler errors.
-       
+
       console.error(`[launcher-bridge] event handler error for "${name}"`, e);
     }
   }
@@ -122,7 +122,6 @@ export function receive(rawMessage) {
   _enqueueMicrotask(() => {
     const msg = _safeJsonParse(rawMessage);
     if (!msg || typeof msg !== 'object') {
-       
       console.warn('[launcher-bridge] invalid message (not JSON object)');
       return;
     }
@@ -134,7 +133,6 @@ export function receive(rawMessage) {
 
     const id = msg.id;
     if (typeof id !== 'string' || !id) {
-       
       console.warn('[launcher-bridge] message without id');
       return;
     }
