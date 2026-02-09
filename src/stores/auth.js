@@ -11,6 +11,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isAuthenticated = ref(false);
   const isAuthResolved = ref(false);
+  const playerLogin = ref('');
 
   const isCheckingAuthLoading = ref(false);
   const isSignUpLoading = ref(false);
@@ -108,12 +109,24 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       isLogInLoading.value = true;
 
-      const response = await launcherAuth.login(data?.login, data?.password);
+      const login = (data?.login ?? '').trim();
+      const password = data?.password ?? '';
+
+      const response = await launcherAuth.login(login, password);
 
       if (response.status === HTTP_STATUS.OK) {
         setIsAuthenticated(true);
+        playerLogin.value = login;
 
         notificationsStore.show('Вы успешно вошли в аккаунт', ALLOWED_THEMES.SUCCESS);
+
+        // Also pass credentials into the launcher layer (in-memory, not persisted).
+        // This is needed for the "Play" flow to know the player name.
+        try {
+          await launcherRequest('launcher.setCredentials', { login, password });
+        } catch {
+          // Non-fatal: auth succeeded, we can still play by sending login on button click.
+        }
       } else {
         notificationsStore.show(response.data?.message || 'Не удалось войти в аккаунт', ALLOWED_THEMES.ERROR);
       }
@@ -142,8 +155,16 @@ export const useAuthStore = defineStore('auth', () => {
 
       if (response.status === HTTP_STATUS.OK) {
         setIsAuthenticated(false);
+        playerLogin.value = '';
 
         notificationsStore.show('Вы успешно вышли из аккаунта', ALLOWED_THEMES.SUCCESS);
+
+        // Clear cached credentials in launcher layer (in-memory only).
+        try {
+          await launcherRequest('launcher.clearCredentials');
+        } catch {
+          // ignore
+        }
       } else {
         notificationsStore.show(response.data?.message || 'Не удалось выйти из аккаунта', ALLOWED_THEMES.ERROR);
       }
@@ -254,6 +275,7 @@ export const useAuthStore = defineStore('auth', () => {
   return {
     isAuthenticated,
     isAuthResolved,
+    playerLogin,
     isCheckingAuthLoading,
     isSignUpLoading,
     isLogInLoading,
