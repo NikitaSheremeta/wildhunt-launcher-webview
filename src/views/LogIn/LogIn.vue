@@ -41,7 +41,7 @@
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import { ref, reactive } from 'vue';
+import { ref, reactive, nextTick } from 'vue';
 import { required, maxLength, minLength, allowedCharacters } from '@/utils/validators';
 import { VALIDATION_MESSAGES } from '@/constants/validation-messages';
 import { VALIDATION_CONSTRAINTS } from '@/constants/validation-constraints';
@@ -95,7 +95,9 @@ const onFormSubmit = debounce(async () => {
   const response = await authStore.logIn(data);
 
   if (response.status === HTTP_STATUS.OK) {
-    router.push('/home');
+    // Let Vue flush auth state updates before navigation (important in embedded WebView event-loop).
+    await nextTick();
+    router.replace('/home');
   }
 });
 </script>

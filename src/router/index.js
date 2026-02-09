@@ -1,6 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-import { HTTP_STATUS } from '@/constants/status-codes';
 
 const routes = [
   {
@@ -48,47 +47,27 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // Hash history is the most robust option for embedded WebView (file:/, jar:/) environments.
+  // It avoids relying on server-side route handling.
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
 });
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  const token = localStorage.getItem('token');
 
-  if (to.meta.guestOnly) {
-    if (token) {
-      authStore.setIsAuthenticated(true);
-
-      return next({ path: '/home', replace: true });
-    }
-
-    authStore.setIsAuthenticated(false);
-    return next();
+  // Embedded WebView mode: auth/session and JWT live in Java layer.
+  // UI asks Java for the current auth status via bridge.
+  if (!authStore.isAuthResolved) {
+    await authStore.checkAuth({ silent: true });
   }
 
-  if (to.meta.requiresAuth) {
-    if (!token) {
-      const response = await authStore.checkAuth();
-
-      if (response.status === HTTP_STATUS.UNAUTHORIZED) {
-        authStore.setIsAuthenticated(false);
-
-        return next({ path: '/login', replace: true });
-      }
-
-      authStore.setIsAuthenticated(response.status === HTTP_STATUS.OK);
-
-      return next();
-    }
-
-    authStore.setIsAuthenticated(true);
-
-    return next();
+  if (to.meta.guestOnly && authStore.isAuthenticated) {
+    return next({ path: '/home', replace: true });
   }
 
-  if (token) {
-    authStore.setIsAuthenticated(true);
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    return next({ path: '/login', replace: true });
   }
 
   return next();

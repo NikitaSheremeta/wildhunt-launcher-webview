@@ -46,6 +46,7 @@ import { storeToRefs } from 'pinia';
 import { useRoute, useRouter } from 'vue-router';
 import { debounce } from '@/utils/debounce';
 import { HTTP_STATUS } from '@/constants/status-codes';
+import { nextTick } from 'vue';
 
 const authStore = useAuthStore();
 
@@ -69,7 +70,8 @@ const onLogOutButtonClick = debounce(async () => {
   const response = await authStore.logOut();
 
   if (response.status === HTTP_STATUS.OK) {
-    router.push('/login');
+    await nextTick();
+    router.replace('/login');
   }
 });
 </script>

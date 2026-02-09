@@ -5,6 +5,9 @@ import { fileURLToPath, URL } from 'node:url'
 import process from 'node:process'
 
 export default defineConfig({
+  // Embedded JavaFX WebView loads index.html from file:/ or classpath,
+  // so assets must be referenced relatively (./assets/...) instead of /assets/...
+  base: './',
   plugins: [
     vue(),
     tailwindcss(),
