@@ -104,7 +104,9 @@ watch([isCodeComplete, codeString], async ([complete, currentCode]) => {
   if (response.status === HTTP_STATUS.OK) {
     try {
       localStorage.setItem(RESET_PASSWORD_CODE_STORAGE_KEY, currentCode);
-    } catch {}
+    } catch {
+      console.warn('Не удалось сохранить код восстановления в localStorage');
+    }
 
     emit('success');
   }

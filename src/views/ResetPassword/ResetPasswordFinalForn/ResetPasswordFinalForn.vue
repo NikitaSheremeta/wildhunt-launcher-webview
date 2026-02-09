@@ -111,7 +111,9 @@ const onFormSubmit = debounce(async () => {
       localStorage.removeItem(RESET_PASSWORD_CODE_STORAGE_KEY);
       localStorage.removeItem(RESET_PASSWORD_STEP_STORAGE_KEY);
       localStorage.removeItem(RESET_PASSWORD_EMAIL_STORAGE_KEY);
-    } catch {}
+    } catch {
+      console.warn('Не удалось очистить данные восстановления в localStorage');
+    }
 
     router.push('/login');
   }

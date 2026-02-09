@@ -25,7 +25,9 @@ try {
   if (savedStep && ALLOWED_STEPS.has(savedStep)) {
     step.value = savedStep;
   }
-} catch {}
+} catch {
+  console.warn('Не удалось прочитать шаг восстановления из localStorage');
+}
 
 function goTo(nextStep) {
   step.value = nextStep;
@@ -38,6 +40,8 @@ watch(step, (value) => {
 
   try {
     localStorage.setItem(RESET_PASSWORD_STEP_STORAGE_KEY, value);
-  } catch {}
+  } catch {
+    console.warn('Не удалось сохранить шаг восстановления в localStorage');
+  }
 });
 </script>

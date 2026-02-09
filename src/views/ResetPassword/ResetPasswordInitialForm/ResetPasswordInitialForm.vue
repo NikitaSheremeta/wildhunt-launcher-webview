@@ -16,7 +16,13 @@
     </div>
 
     <div class="mt-6">
-      <AppButton type="submit" theme="primary" label="Восстановить" :loading="isResetPasswordLoading" />
+      <AppButton
+        type="submit"
+        theme="primary"
+        label="Восстановить"
+        :loading="isResetPasswordLoading"
+        @click.prevent="onFormSubmit"
+      />
     </div>
 
     <AppLink
@@ -67,7 +73,9 @@ onMounted(() => {
     if (savedEmail && !data.email) {
       data.email = savedEmail;
     }
-  } catch {}
+  } catch {
+    console.warn('Не удалось прочитать email восстановления из localStorage');
+  }
 });
 
 const rules = ref({
@@ -86,7 +94,9 @@ const timer = useTimer();
 const onFormSubmit = debounce(async () => {
   try {
     localStorage.setItem(RESET_PASSWORD_EMAIL_STORAGE_KEY, (data.email ?? '').trim());
-  } catch {}
+  } catch {
+    console.warn('Не удалось сохранить email восстановления в localStorage');
+  }
 
   const isValid = formValidator.validate();
 
