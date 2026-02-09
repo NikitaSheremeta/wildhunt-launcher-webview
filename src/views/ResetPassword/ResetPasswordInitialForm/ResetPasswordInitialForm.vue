@@ -67,9 +67,7 @@ onMounted(() => {
     if (savedEmail && !data.email) {
       data.email = savedEmail;
     }
-  } catch {
-    // ignore storage access errors
-  }
+  } catch {}
 });
 
 const rules = ref({
@@ -88,9 +86,7 @@ const timer = useTimer();
 const onFormSubmit = debounce(async () => {
   try {
     localStorage.setItem(RESET_PASSWORD_EMAIL_STORAGE_KEY, (data.email ?? '').trim());
-  } catch {
-    // ignore storage access errors
-  }
+  } catch {}
 
   const isValid = formValidator.validate();
 
@@ -100,7 +96,7 @@ const onFormSubmit = debounce(async () => {
 
   const response = await authStore.resetPassword({ email: data.email });
 
-  if (response?.status === HTTP_STATUS.OK) {
+  if (response.status === HTTP_STATUS.OK) {
     timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
 
     emit('success');

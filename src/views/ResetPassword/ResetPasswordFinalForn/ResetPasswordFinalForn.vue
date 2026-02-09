@@ -31,18 +31,13 @@ import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-
 import { required, maxLength, minLength, allowedCharacters, sameAs } from '@/utils/validators';
-
 import { VALIDATION_MESSAGES } from '@/constants/validation-messages';
 import { VALIDATION_CONSTRAINTS } from '@/constants/validation-constraints';
-
 import { useFieldsValidation } from '@/hooks/useFieldsValidation';
 import { useFormValidator } from '@/hooks/useFormValidator';
-
 import { debounce } from '@/utils/debounce';
 import { HTTP_STATUS } from '@/constants/status-codes';
-
 import AppPassword from '@/components/AppPassword/AppPassword.vue';
 import AppButton from '@/components/AppButton/AppButton.vue';
 

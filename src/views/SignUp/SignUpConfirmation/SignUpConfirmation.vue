@@ -9,11 +9,11 @@
 
       <AppLink
         v-if="!timer.active"
-        color="secondary"
-        label="Отправить код повторно"
-        icon-left="redo"
+        color="primary"
+        label="Отправить код еще раз"
+        iconLeft="redo"
         small
-        underline
+        class="mt-4"
         @click.prevent="onClickResendLink"
       />
 
@@ -28,14 +28,14 @@ import { computed, onMounted } from 'vue';
 import AppCode from '@/components/AppCode/AppCode.vue';
 import AppLink from '@/components/AppLink/AppLink.vue';
 
-const ONE_HUNDRED_TWENTY_MILLISECONDS = 120;
+const FIFTEEN_MINUTES_IN_SECONDS = 15 * 60;
 
 const timer = useTimer();
 
-const notice = computed(() => String('Отправить код повторно можно через ' + timer.time));
+const notice = computed(() => 'Отправить код повторно можно через ' + timer.time);
 
 const onClickResendLink = () => {
-  timer.createTimer(ONE_HUNDRED_TWENTY_MILLISECONDS);
+  timer.createTimer(FIFTEEN_MINUTES_IN_SECONDS);
 };
 
 onMounted(() => {
