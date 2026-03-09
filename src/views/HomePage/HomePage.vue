@@ -21,14 +21,9 @@ const { playerLogin } = storeToRefs(authStore);
 const isPlayLoading = ref(false);
 
 const onPlayClick = async () => {
-  if (!playerLogin.value) {
-    notificationsStore.show('Сначала войдите в аккаунт', ALLOWED_THEMES.ERROR);
-    return;
-  }
-
   try {
     isPlayLoading.value = true;
-    const response = await launcherRequest('game.play', { login: playerLogin.value });
+    const response = await launcherRequest('game.play', { login: playerLogin.value || '' });
 
     if (response.status >= 200 && response.status < 300) {
       // Launcher is starting the client asynchronously.

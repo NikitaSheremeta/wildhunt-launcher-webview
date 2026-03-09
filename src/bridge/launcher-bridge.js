@@ -22,9 +22,9 @@
  * Response (success or non-200):
  *   { "type":"response", "id":"...", "status":200, "data":{...} }
  * Transport / unexpected error:
- *   { "type":"error", "id":"...", "code":"...", "message":"...", "details":{...} }
- * Optional event:
+ *   { "type":"error", "id":"...", "code":"...", "message":"...", "details":{...} } * Optional event (name/payload or event/data from Java):
  *   { "type":"event", "name":"auth.changed", "payload":{...} }
+ *   { "type":"event", "event":"launcher.progress", "data":{ active, progress, percent, message } }
  */
 
 const DEFAULT_TIMEOUT_MS = 15_000;
@@ -126,8 +126,12 @@ export function receive(rawMessage) {
       return;
     }
 
-    if (msg.type === 'event' && typeof msg.name === 'string') {
-      _emitEvent(msg.name, msg.payload);
+    if (msg.type === 'event') {
+      const name = msg.event ?? msg.name;
+      const payload = msg.data ?? msg.payload;
+      if (typeof name === 'string') {
+        _emitEvent(name, payload);
+      }
       return;
     }
 
